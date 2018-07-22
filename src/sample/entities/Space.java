@@ -15,6 +15,7 @@ public class Space {
 
     private GameObject object;
 
+    
     public boolean[] getWalls() {
         return walls;
     }
