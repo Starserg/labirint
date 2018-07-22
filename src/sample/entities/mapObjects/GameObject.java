@@ -10,6 +10,7 @@ public abstract class GameObject {
     protected Directions direction;
     protected Directions directionOfMoving;
     protected double delta;
+    protected boolean enabled;
 
     public int getX() {
         return x;
@@ -87,5 +88,13 @@ public abstract class GameObject {
         else{
             this.directionOfMoving = directionOfMoving;
         }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

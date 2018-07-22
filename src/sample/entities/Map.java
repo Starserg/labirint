@@ -16,6 +16,9 @@ public class Map {
 
     private ArrayList<GameObject> gameObjects;
 
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
 
     private void putGameObjectsToList(){
         for(int i = 0; i < spaces.length; i++){
