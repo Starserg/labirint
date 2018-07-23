@@ -20,6 +20,10 @@ public class Map {
         return gameObjects;
     }
 
+    public Space[][] getSpaces() {
+        return spaces;
+    }
+
     private void putGameObjectsToList(){
         for(int i = 0; i < spaces.length; i++){
             for(int j = 0; j < spaces[i].length; j++){
