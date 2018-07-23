@@ -5,6 +5,7 @@ import sample.DAL.MapMaker;
 import sample.entities.Command;
 import sample.entities.Map;
 import sample.entities.mapObjects.GameObject;
+import sample.enums.Directions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,8 +47,26 @@ public class GameLogic {
         }
     }
 
-    public void doCommand(Command cmd){
+    public void doCommand(Command cmd) throws Exception {
+        switch (cmd.getActivity()){
+            case Go:{
+                if(cmd.getObject().isEnabled() && canObjGo(cmd.getObject(), cmd.getDirection())){
+                    cmd.getObject().setDirectionOfMoving(cmd.getDirection());
+                    occupySpaceBeforeMoving(cmd.getObject(), cmd.getDirection());
+                    cmd.getObject().setEnabled(false);
+                }
+            }
+            break;
 
+            case Turn:{
+                if(cmd.getObject().isEnabled()){
+                    cmd.getObject().setDirection(cmd.getDirection());
+                }
+            }
+            break;
+
+            //TODO: add other variants
+        }
     }
 
 
@@ -83,6 +102,45 @@ public class GameLogic {
             break;
         }
         obj.setEnabled(true);
+    }
+
+    private boolean canObjGo(GameObject obj, Directions dir){
+        switch (dir){
+            case Up:{
+                return (obj.getY()>0 && !map.getSpaces()[obj.getX()][obj.getY()].getWalls()[0] && map.getSpaces()[obj.getX()][obj.getY()-1].getObject() == null);
+            }
+            case Right:{
+                return (obj.getX()+1 < map.getSpaces().length && !map.getSpaces()[obj.getX()][obj.getY()].getWalls()[1] && map.getSpaces()[obj.getX()+1][obj.getY()].getObject() == null);
+            }
+            case Down:{
+                return (obj.getY()+1 < map.getSpaces()[0].length && !map.getSpaces()[obj.getX()][obj.getY()].getWalls()[2] && map.getSpaces()[obj.getX()][obj.getY()+1].getObject() == null);
+            }
+            case Left:{
+                return (obj.getX() > 0 && !map.getSpaces()[obj.getX()][obj.getY()].getWalls()[3] && map.getSpaces()[obj.getX()-1][obj.getY()].getObject() == null);
+            }
+        }
+        return false;
+    }
+
+    private void occupySpaceBeforeMoving(GameObject obj, Directions dir){
+        switch (dir){
+            case Up:{
+                map.getSpaces()[obj.getX()][obj.getY()-1].setObject(obj);
+            }
+            break;
+            case Right:{
+                map.getSpaces()[obj.getX()+1][obj.getY()].setObject(obj);
+            }
+            break;
+            case Down:{
+                map.getSpaces()[obj.getX()][obj.getY()+1].setObject(obj);
+            }
+            break;
+            case Left:{
+                map.getSpaces()[obj.getX()-1][obj.getY()].setObject(obj);
+            }
+            break;
+        }
     }
 
 }

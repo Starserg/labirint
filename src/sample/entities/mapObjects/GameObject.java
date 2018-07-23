@@ -4,6 +4,16 @@ import sample.enums.Directions;
 
 public abstract class GameObject {
 
+    public GameObject(int x, int y, double speed){
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.direction = Directions.Up;
+        this.directionOfMoving = Directions.Up;
+        this.delta = 0;
+        this.enabled = true;
+    }
+
     protected int x;
     protected int y;
     protected double speed;
