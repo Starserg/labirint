@@ -1,6 +1,9 @@
 package sample.entities;
 
 import sample.entities.mapObjects.GameObject;
+import sample.entities.things.Thing;
+
+import java.util.ArrayList;
 
 public class Space {
 
@@ -14,6 +17,7 @@ public class Space {
     private boolean[] walls;
 
     private GameObject object;
+    private ArrayList<Thing> things;
 
     public boolean[] getWalls() {
         return walls;

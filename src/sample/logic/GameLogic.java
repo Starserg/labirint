@@ -65,6 +65,7 @@ public class GameLogic {
             }
             break;
 
+
             //TODO: add other variants
         }
     }
