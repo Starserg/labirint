@@ -5,14 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.entities.Game;
 
 public class Main extends Application {
 
+    private static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("presentation/startMenu.fxml"));
+        stage = primaryStage;
+        Parent menuSceneRoot = FXMLLoader.load(getClass().getResource("presentation/startMenu.fxml"));
         primaryStage.setTitle("Labirint");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(menuSceneRoot));
         primaryStage.show();
     }
 
@@ -20,4 +24,10 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
+    public static Stage getStage(){
+        return stage;
+    }
+
 }

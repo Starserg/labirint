@@ -6,13 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="472.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.GameWindowController">
    <children>
-      <AnchorPane layoutX="-10.0" layoutY="-6.0" prefHeight="48.0" prefWidth="653.0">
+      <AnchorPane fx:id="gameMenuPane" layoutX="-10.0" layoutY="-6.0" prefHeight="48.0" prefWidth="653.0">
          <children>
             <Button layoutX="11.0" layoutY="7.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="89.0" text="Save" />
-            <Button layoutX="100.0" layoutY="7.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="89.0" text="Exit" />
+            <Button fx:id="exitButton" layoutX="100.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitFromGame" prefHeight="39.0" prefWidth="89.0" text="Exit" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gameContentPane" layoutX="1.0" layoutY="40.0" prefHeight="432.0" prefWidth="643.0" />
