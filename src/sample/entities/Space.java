@@ -1,5 +1,6 @@
 package sample.entities;
 
+import javafx.scene.image.Image;
 import sample.entities.mapObjects.GameObject;
 import sample.entities.things.Thing;
 
@@ -29,5 +30,21 @@ public class Space {
 
     public void setObject(GameObject object) {
         this.object = object;
+    }
+
+
+
+    //for drawing (experiment)
+
+    private Image groundImage;
+
+    public Image getGroundImage() {
+        return groundImage;
+    }
+
+    public void setGroundImage(Image groundImage) {
+        if(groundImage != null){
+            this.groundImage = groundImage;
+        }
     }
 }

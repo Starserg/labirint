@@ -1,5 +1,6 @@
 package sample.entities.mapObjects;
 
+import javafx.scene.image.Image;
 import sample.enums.Directions;
 
 public abstract class GameObject {
@@ -106,5 +107,21 @@ public abstract class GameObject {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+
+
+    //for drawing (experiment)
+
+    protected Image objectTexture;
+
+    public Image getObjectTexture() {
+        return objectTexture;
+    }
+
+    public void setObjectTexture(Image objectTexture) {
+        if(objectTexture!= null){
+            this.objectTexture = objectTexture;
+        }
     }
 }

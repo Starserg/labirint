@@ -15,6 +15,8 @@ import sample.entities.Game;
 import sample.presentation.Drawer;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GameWindowController {
@@ -25,7 +27,15 @@ public class GameWindowController {
     @FXML
     public void initialize() {
         //TODO: refactor it!
-        this.game = null;
+        this.game = new Game(50, 50);
+        updatePictureTimer = new Timer();
+        startTimer = new Timer();
+        startTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startDrawingGame();
+            }
+        }, 500);
     }
 
 
@@ -38,6 +48,9 @@ public class GameWindowController {
 
     @FXML
     Button exitButton;
+
+    private Timer startTimer;
+    private Timer updatePictureTimer;
 
 
     public void exitFromGame(ActionEvent event) throws IOException {
@@ -52,8 +65,20 @@ public class GameWindowController {
     }
 
 
-    public void drawGameContent(){
-        Drawer.getGameFroud(game.getGameMap(), null); //TODO: set player
+    private void startDrawingGame(){
+        updatePictureTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                drawGameContent();
+            }
+        }, 10, 10);
+    }
+
+    private void drawGameContent(){
+        ImageView view = new ImageView();
+        view.setImage(Drawer.getGameFrame(game.getGameMap(), null)); //TODO: set player
+       // gameContentPane.getChildren().clear();
+        gameContentPane.getChildren().add(view);
     }
 
 }

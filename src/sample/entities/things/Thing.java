@@ -1,5 +1,7 @@
 package sample.entities.things;
 
+import javafx.scene.image.Image;
+
 public abstract class Thing {
     public Thing(int x, int y){
         this.x = x;
@@ -35,5 +37,19 @@ public abstract class Thing {
         }
     }
 
+
+    //for drawing (experiment)
+
+    protected Image thingTexture;
+
+    public Image getThingTexture() {
+        return thingTexture;
+    }
+
+    public void setThingTexture(Image thingTexture) {
+        if(thingTexture!= null){
+            this.thingTexture = thingTexture;
+        }
+    }
 
 }
