@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.Main;
@@ -20,7 +22,6 @@ public class GameWindowController {
     private Game game;
 
 
-    //TODO: check that it happens not once
     @FXML
     public void initialize() {
         //TODO: refactor it!
@@ -45,8 +46,14 @@ public class GameWindowController {
         stage.setScene(new Scene(menuSceneRoot));
     }
 
+    @FXML
+    public void keyPressed(KeyEvent event){
+        //TODO: handle it
+    }
+
 
     public void drawGameContent(){
         Drawer.getGameFroud(game.getGameMap(), null); //TODO: set player
     }
+
 }

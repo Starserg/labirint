@@ -33,6 +33,7 @@ public class StartMenuController {
         Stage stage = Main.getStage();
         Parent gameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/gameWindow.fxml"));
         stage.setScene(new Scene(gameSceneRoot));
+        gameSceneRoot.requestFocus();
     }
 
 

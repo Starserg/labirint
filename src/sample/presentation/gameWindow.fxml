@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="472.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.GameWindowController">
+<AnchorPane prefHeight="472.0" prefWidth="641.0" onKeyPressed="#keyPressed" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.GameWindowController">
    <children>
       <AnchorPane fx:id="gameMenuPane" layoutX="-10.0" layoutY="-6.0" prefHeight="48.0" prefWidth="653.0">
          <children>
@@ -14,6 +15,7 @@
             <Button fx:id="exitButton" layoutX="100.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitFromGame" prefHeight="39.0" prefWidth="89.0" text="Exit" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gameContentPane" layoutX="1.0" layoutY="40.0" prefHeight="432.0" prefWidth="643.0" />
+      <AnchorPane fx:id="gameContentPane" layoutX="1.0" layoutY="40.0" prefHeight="432.0" prefWidth="643.0">
+      </AnchorPane>
    </children>
 </AnchorPane>
