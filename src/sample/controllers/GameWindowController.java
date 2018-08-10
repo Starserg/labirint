@@ -19,6 +19,7 @@ import sample.presentation.Drawer;
 
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -98,10 +99,11 @@ public class GameWindowController {
     }
 
     private void drawGameContent(){
-        ImageView view = new ImageView();
-        view.setImage(Drawer.getGameFrame(game.getGameMap(), null)); //TODO: set player
+        ArrayList<ImageView> frame = Drawer.getGameFrame(game.getGameMap(), null); //TODO: set player
         gameContentPane.getChildren().clear();
-        gameContentPane.getChildren().add(view);
+        for (ImageView view: frame) {
+            gameContentPane.getChildren().add(view);
+        }
         if(LocalTime.now().isAfter(lastFrameCountTime.plusSeconds(1))){
             lastFrameCountTime = LocalTime.now();
             FPSLabel.setText(String.valueOf(frameCounter));
