@@ -15,7 +15,9 @@ public class Drawer {
 
     }
 
-    private Image playerImg;
+
+    private static Image wallImage = new Image("/resources/textures/wall1.png");
+
     private static int singleSize = 50;
 
 
@@ -30,12 +32,78 @@ public class Drawer {
     }
 
     private static void drawSpaceOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
+        drawSpaceGroundOnFrame(frame, space, x, y, singleSize);
+        if(space.getObject()!= null){
+            drawSpaceObjectOnFrame(frame, space, x, y, singleSize);
+        }
+    }
+
+
+    private static void drawSpaceObjectOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
+        ImageView objectImageView = new ImageView(space.getObject().getObjectTexture());
+        objectImageView.setFitWidth(singleSize);
+        objectImageView.setFitHeight(singleSize);
+        objectImageView.setX(x);
+        objectImageView.setY(y);
+        frame.add(objectImageView);
+    }
+
+
+    private static void drawSpaceGroundOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         ImageView groundImageView = new ImageView(space.getGroundImage());
         groundImageView.setFitWidth(singleSize);
         groundImageView.setFitHeight(singleSize);
         groundImageView.setX(x);
         groundImageView.setY(y);
         frame.add(groundImageView);
+    }
+
+
+    private static void drawSpaceWallsOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
+        //TODO: refactor!!!
+        ImageView wallImageView = new ImageView(space.getObject().getObjectTexture());
+        wallImageView.setFitWidth(singleSize);
+        wallImageView.setFitHeight(singleSize/8);
+        wallImageView.setX(x);
+        wallImageView.setY(y);
+        for(int i = 0; i < space.getWalls().length; i++){
+
+            wallImageView.setRotate(90);
+
+            if(space.getWalls()[i]){
+                frame.add(wallImageView);
+
+            }
+        }
+
+
+    }
+
+//TODO: continue it! it will be great method!
+    public static ArrayList<ImageView> getGameFrameUpd(Map map, int playerId, int windowWidth, int windowHeight) throws Exception {
+        Player player = null;
+        for(int i = 0; i < map.getPlayers().size(); i++){
+            if(map.getPlayers().get(i).getId() == playerId){
+                player = map.getPlayers().get(i);
+                break;
+            }
+        }
+        if(player == null){
+            throw new Exception();
+        }
+
+        ArrayList frame = new ArrayList();
+        for(int i = player.getX()-player.getSeeSize(); i < player.getX()+player.getSeeSize(); i++){
+            for(int j = player.getY()-player.getSeeSize(); j < player.getY()+player.getSeeSize(); j++){
+                if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
+                    continue;
+                }
+                if(map.caPlayerSeeSpace(player,  map.getSpaces()[i][j])){
+                    drawSpaceOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize()), singleSize*(j-player.getY()+player.getSeeSize()), singleSize);
+                }
+            }
+        }
+        return frame;
     }
 
 

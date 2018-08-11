@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import sample.Constants;
 import sample.entities.Map;
 import sample.entities.Space;
+import sample.entities.mapObjects.Player;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -20,6 +21,11 @@ public class MapMaker {
             }
         }
         setGroundImagesToSpaces(spaces);
+
+        //TODO: very BAD CODE!!!!
+        Player player1 = new Player(0, 0, Constants.playerId);
+        spaces[0][0].setObject(player1);
+
         //TODO: set randomize logic here
         return new Map(spaces);
     }

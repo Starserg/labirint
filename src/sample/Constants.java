@@ -4,4 +4,6 @@ public class Constants {
     public static int updateTimerPeriod = 16;
     public static double playerSpeed = 0.2;
     public static int variantsOfGround = 4;
+    public static int playerId = 1;
+    public static int playerSeeSize = 3;
 }
