@@ -17,7 +17,7 @@ public class MapMaker {
         Space[][] spaces = new Space[width][height];
         for(int i =0; i < spaces.length; i++){
             for(int j = 0; j < spaces[i].length; j++){
-                spaces[i][j] = new Space();
+                spaces[i][j] = new Space(i, j);
             }
         }
         setGroundImagesToSpaces(spaces);

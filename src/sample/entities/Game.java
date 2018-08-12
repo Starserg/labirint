@@ -18,4 +18,9 @@ public class Game {
         gameLogic.startGame();
     }
 
+
+    public void doCommand(Command cmd) throws Exception {
+        gameLogic.doCommand(cmd);
+    }
+
 }

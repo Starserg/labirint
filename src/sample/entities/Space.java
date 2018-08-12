@@ -8,12 +8,17 @@ import java.util.ArrayList;
 
 public class Space {
 
-    public Space(){
+    public Space(int x, int y){
+        this.x = x;
+        this.y = y;
         this.walls = new boolean[4];
         for (int i = 0; i < this.walls.length; i++){
             this.walls[i] = false;
         }
     }
+
+    private int x;
+    private int y;
 
     private boolean[] walls;
 
@@ -32,7 +37,13 @@ public class Space {
         this.object = object;
     }
 
+    public int getX() {
+        return x;
+    }
 
+    public int getY() {
+        return y;
+    }
 
     //for drawing (experiment)
 

@@ -52,4 +52,16 @@ public class Map {
         return true;
     }
 
+
+    public Player getPlayerById(int playerId) throws Exception {
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getId() == playerId){
+                return players.get(i);
+            }
+        }
+        throw new Exception();
+    }
+
+
+
 }

@@ -14,7 +14,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.Constants;
 import sample.Main;
+import sample.entities.Command;
 import sample.entities.Game;
+import sample.entities.mapObjects.Player;
+import sample.enums.Activities;
+import sample.enums.Directions;
 import sample.presentation.Drawer;
 
 import java.io.IOException;
@@ -33,12 +37,28 @@ public class GameWindowController {
     public void initialize() {
         //TODO: refactor it!
         this.game = new Game(10, 10);
+        playerId = Constants.playerId;
+        try {
+            player = game.getGameMap().getPlayerById(playerId);
+        }
+        catch (Exception e){
+            updatePictureTimer.cancel();
+            Stage stage = Main.getStage();
+            Parent menuSceneRoot = null;
+            try {
+                menuSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/startMenu.fxml"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            stage.setScene(new Scene(menuSceneRoot));
+        }
         updatePictureTimer = new Timer();
         startTimer = new Timer();
         startTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 startDrawingGame();
+                game.startGame();
             }
         }, 500);
     }
@@ -64,6 +84,9 @@ public class GameWindowController {
     private Timer startTimer;
     private Timer updatePictureTimer;
 
+    private int playerId;
+    private Player player;
+
     private int frameCounter = 0;
     private LocalTime lastFrameCountTime;
 
@@ -76,7 +99,21 @@ public class GameWindowController {
     }
 
     @FXML
-    public void keyPressed(KeyEvent event){
+    public void keyPressed(KeyEvent event) throws Exception {
+
+        if(event.getCode().toString().equals("W")){
+            game.doCommand(new Command(Activities.Go, Directions.Up, player));
+        }
+        else if(event.getCode().toString().equals("D")){
+            game.doCommand(new Command(Activities.Go, Directions.Right, player));
+        }
+        else if(event.getCode().toString().equals("S")){
+            game.doCommand(new Command(Activities.Go, Directions.Down, player));
+        }
+        else if(event.getCode().toString().equals("A")){
+            game.doCommand(new Command(Activities.Go, Directions.Left, player));
+        }
+
         //TODO: handle it
     }
 

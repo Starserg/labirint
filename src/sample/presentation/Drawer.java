@@ -6,6 +6,7 @@ import javafx.scene.image.WritableImage;
 import sample.entities.Map;
 import sample.entities.Space;
 import sample.entities.mapObjects.Player;
+import sample.enums.Directions;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class Drawer {
 
     private static void drawSpaceOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         drawSpaceGroundOnFrame(frame, space, x, y, singleSize);
-        if(space.getObject()!= null){
+        if(space.getObject()!= null && space.getObject().getX() == space.getX() &&space.getObject().getY() == space.getY()){
             drawSpaceObjectOnFrame(frame, space, x, y, singleSize);
         }
     }
@@ -45,7 +46,34 @@ public class Drawer {
         objectImageView.setFitHeight(singleSize);
         objectImageView.setX(x);
         objectImageView.setY(y);
+        setDeltaToObject(objectImageView, space.getObject().getDirectionOfMoving(), space.getObject().getDelta());
         frame.add(objectImageView);
+    }
+
+
+    private static void setDeltaToObject(ImageView objectImageView, Directions direction, double delta){
+        double dx = 0;
+        double dy = 0;
+        switch (direction){
+            case Up:{
+                dy = -delta*singleSize;
+            }
+            break;
+            case Right:{
+                dx = delta*singleSize;
+            }
+            break;
+            case Down:{
+                dy = delta*singleSize;
+            }
+            break;
+            case Left:{
+                dx = -delta*singleSize;
+            }
+            break;
+        }
+        objectImageView.setX(objectImageView.getX()+ (int)dx);
+        objectImageView.setY(objectImageView.getY()+ (int)dy);
     }
 
 
