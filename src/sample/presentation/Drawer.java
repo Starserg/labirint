@@ -20,7 +20,8 @@ public class Drawer {
     private static Image wallImage = new Image("/resources/textures/wall1.png");
 
     private static int singleSize = 50;
-
+    private static int drawingDx = 0;
+    private static int drawingDy = 0;
 
     public static ArrayList<ImageView> getGameFrame(Map map, Player player){
         ArrayList frame = new ArrayList();
@@ -108,26 +109,42 @@ public class Drawer {
     }
 
 //TODO: continue it! it will be great method!
-    public static ArrayList<ImageView> getGameFrameUpd(Map map, int playerId, int windowWidth, int windowHeight) throws Exception {
-        Player player = null;
-        for(int i = 0; i < map.getPlayers().size(); i++){
-            if(map.getPlayers().get(i).getId() == playerId){
-                player = map.getPlayers().get(i);
-                break;
+    public static ArrayList<ImageView> getGameFrameUpd(Map map, Player player, int windowWidth, int windowHeight) throws Exception {
+
+        singleSize = windowWidth/(player.getSeeSize()*2+1);
+
+        int delta = (int)(player.getDelta()*singleSize);
+        switch (player.getDirectionOfMoving()){
+            case Up:{
+                drawingDy = delta;
+                drawingDx = 0;
             }
-        }
-        if(player == null){
-            throw new Exception();
+            break;
+            case Right:{
+                drawingDx = -delta;
+                drawingDy = 0;
+            }
+            break;
+            case Down:{
+                drawingDy = -delta;
+                drawingDx = 0;
+            }
+            break;
+            case Left:{
+                drawingDx = delta;
+                drawingDy = 0;
+            }
+            break;
         }
 
         ArrayList frame = new ArrayList();
-        for(int i = player.getX()-player.getSeeSize(); i < player.getX()+player.getSeeSize(); i++){
-            for(int j = player.getY()-player.getSeeSize(); j < player.getY()+player.getSeeSize(); j++){
+        for(int i = player.getX()-player.getSeeSize(); i <= player.getX()+player.getSeeSize(); i++){
+            for(int j = player.getY()-player.getSeeSize(); j <= player.getY()+player.getSeeSize(); j++){
                 if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
                     continue;
                 }
                 if(map.caPlayerSeeSpace(player,  map.getSpaces()[i][j])){
-                    drawSpaceOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize()), singleSize*(j-player.getY()+player.getSeeSize()), singleSize);
+                    drawSpaceOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
                 }
             }
         }

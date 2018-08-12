@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import sample.Constants;
 import sample.Main;
 import sample.entities.Command;
@@ -36,7 +37,7 @@ public class GameWindowController {
     @FXML
     public void initialize() {
         //TODO: refactor it!
-        this.game = new Game(10, 10);
+        this.game = new Game(100, 100);
         playerId = Constants.playerId;
         try {
             player = game.getGameMap().getPlayerById(playerId);
@@ -136,7 +137,13 @@ public class GameWindowController {
     }
 
     private void drawGameContent(){
-        ArrayList<ImageView> frame = Drawer.getGameFrame(game.getGameMap(), null); //TODO: set player
+      //  ArrayList<ImageView> frame = Drawer.getGameFrame(game.getGameMap(), null); //TODO: set player
+        ArrayList<ImageView> frame = null;
+        try {
+            frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)gameContentPane.getPrefWidth(), (int)gameContentPane.getPrefHeight());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         gameContentPane.getChildren().clear();
         for (ImageView view: frame) {
             gameContentPane.getChildren().add(view);
