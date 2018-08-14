@@ -25,7 +25,7 @@ public class MapMaker {
         //TODO: very BAD CODE!!!!
         Player player1 = new Player(0, 0, Constants.playerId);
         spaces[0][0].setObject(player1);
-
+        setWalls(spaces);
         //TODO: set randomize logic here
         return new Map(spaces);
     }
@@ -42,6 +42,16 @@ public class MapMaker {
                 spaces[i][j].setGroundImage(grounds[random.nextInt(grounds.length)]);
             }
         }
+    }
+
+
+    //TODO: remove this
+    private static void setWalls(Space[][] spaces){
+        spaces[2][2].getWalls()[0] = true;
+        spaces[2][2].getWalls()[1] = true;
+        spaces[2][2].getWalls()[2] = true;
+        spaces[2][2].getWalls()[3] = true;
+
     }
 
 }

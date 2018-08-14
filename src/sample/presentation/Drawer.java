@@ -17,7 +17,8 @@ public class Drawer {
     }
 
 
-    private static Image wallImage = new Image("/resources/textures/wall1.png");
+    private static Image wallImageHorizontal = new Image("/resources/textures/wall1.png");
+    private static Image wallImageVertical = new Image("/resources/textures/wall2.png");
 
     private static int singleSize = 50;
     private static int drawingDx = 0;
@@ -35,9 +36,7 @@ public class Drawer {
 
     private static void drawSpaceOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         drawSpaceGroundOnFrame(frame, space, x, y, singleSize);
-        if(space.getObject()!= null && space.getObject().getX() == space.getX() &&space.getObject().getY() == space.getY()){
-            drawSpaceObjectOnFrame(frame, space, x, y, singleSize);
-        }
+        drawSpaceWallsOnFrame(frame, space, x, y, singleSize);
     }
 
 
@@ -90,14 +89,33 @@ public class Drawer {
 
     private static void drawSpaceWallsOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         //TODO: refactor!!!
-        ImageView wallImageView = new ImageView(space.getObject().getObjectTexture());
-        wallImageView.setFitWidth(singleSize);
-        wallImageView.setFitHeight(singleSize/8);
-        wallImageView.setX(x);
-        wallImageView.setY(y);
+        ImageView wallImageView;
         for(int i = 0; i < space.getWalls().length; i++){
 
-            wallImageView.setRotate(90);
+            if(i%2 == 0){
+                wallImageView = new ImageView(wallImageHorizontal);
+                wallImageView.setFitWidth(singleSize);
+                wallImageView.setFitHeight(singleSize/8);
+            }
+            else{
+                wallImageView = new ImageView(wallImageVertical);
+                wallImageView.setFitWidth(singleSize/8);
+                wallImageView.setFitHeight(singleSize);
+            }
+
+            if(i == 0 || i == 2 || i == 3){
+                wallImageView.setX(x);
+            }
+            else{
+                wallImageView.setX(x+singleSize*7/8);
+            }
+            if(i == 0 || i == 1 || i == 3){
+                wallImageView.setY(y);
+            }
+            else{
+                wallImageView.setY(y+(singleSize*7)/8);
+            }
+
 
             if(space.getWalls()[i]){
                 frame.add(wallImageView);
@@ -148,6 +166,23 @@ public class Drawer {
                 }
             }
         }
+
+
+        for(int i = player.getX()-player.getSeeSize(); i <= player.getX()+player.getSeeSize(); i++){
+            for(int j = player.getY()-player.getSeeSize(); j <= player.getY()+player.getSeeSize(); j++){
+                if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
+                    continue;
+                }
+                if(map.caPlayerSeeSpace(player,  map.getSpaces()[i][j])){
+                    if(map.getSpaces()[i][j].getObject()!= null && map.getSpaces()[i][j].getObject().getX() == map.getSpaces()[i][j].getX() &&map.getSpaces()[i][j].getObject().getY() == map.getSpaces()[i][j].getY()){
+                        drawSpaceObjectOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
+                    }
+                }
+            }
+        }
+
+
+
         return frame;
     }
 
