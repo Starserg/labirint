@@ -25,7 +25,7 @@ public class MapMaker {
         //TODO: very BAD CODE!!!!
         Player player1 = new Player(0, 0, Constants.playerId);
         spaces[0][0].setObject(player1);
-        setWalls(spaces);
+        setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
         //TODO: set randomize logic here
         return new Map(spaces);
     }
@@ -45,13 +45,57 @@ public class MapMaker {
     }
 
 
-    //TODO: remove this
-    private static void setWalls(Space[][] spaces){
-        spaces[2][2].getWalls()[0] = true;
-        spaces[2][2].getWalls()[1] = true;
-        spaces[2][2].getWalls()[2] = true;
-        spaces[2][2].getWalls()[3] = true;
-
+    private static void setRandomWalls(Space[][] spaces, int countOfWalls){
+        Random random = new Random();
+        for(int i = 0; i < countOfWalls; i++){
+            if(!setWall(spaces, random.nextInt(spaces.length-1), random.nextInt(spaces[0].length-1), random.nextInt(4))){
+                i--;
+            }
+        }
     }
+
+
+    private static boolean setWall(Space[][] spaces, int x, int y, int direction){
+        if(direction < 0 || direction > 3 || x < 0 || y < 0 || x >= spaces.length || y >= spaces[0].length){
+            return false;
+        }
+
+        if(spaces[x][y].getWalls()[direction]){
+            return false;
+        }
+
+        spaces[x][y].getWalls()[direction] = true;
+
+        switch (direction){
+            case 0:{
+                if(y > 0){
+                    spaces[x][y-1].getWalls()[2] = true;
+                }
+            }
+            break;
+            case 1:{
+                if(x < spaces.length-1){
+                    spaces[x+1][y].getWalls()[3] = true;
+                }
+            }
+            break;
+            case 2:{
+                if(y < spaces[0].length-1){
+                    spaces[x][y+1].getWalls()[0] = true;
+                }
+            }
+            break;
+            case 3:{
+                if(x > 0){
+                    spaces[x-1][y].getWalls()[1] = true;
+                }
+            }
+            break;
+        }
+
+        return true;
+    }
+
+
 
 }

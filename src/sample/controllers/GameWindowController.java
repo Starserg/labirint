@@ -37,7 +37,7 @@ public class GameWindowController {
     @FXML
     public void initialize() {
         //TODO: refactor it!
-        this.game = new Game(100, 100);
+        this.game = new Game(20, 20);
         playerId = Constants.playerId;
         try {
             player = game.getGameMap().getPlayerById(playerId);
