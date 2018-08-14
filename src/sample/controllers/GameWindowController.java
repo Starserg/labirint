@@ -102,6 +102,7 @@ public class GameWindowController {
     @FXML
     public void keyPressed(KeyEvent event) throws Exception {
 
+
         if(event.getCode().toString().equals("W")){
             game.doCommand(new Command(Activities.Go, Directions.Up, player));
         }
@@ -113,6 +114,18 @@ public class GameWindowController {
         }
         else if(event.getCode().toString().equals("A")){
             game.doCommand(new Command(Activities.Go, Directions.Left, player));
+        }
+        else if(event.getCode().toString().equals("UP")){
+            game.doCommand(new Command(Activities.Turn, Directions.Up, player));
+        }
+        else if(event.getCode().toString().equals("RIGHT")){
+            game.doCommand(new Command(Activities.Turn, Directions.Right, player));
+        }
+        else if(event.getCode().toString().equals("DOWN")){
+            game.doCommand(new Command(Activities.Turn, Directions.Down, player));
+        }
+        else if(event.getCode().toString().equals("LEFT")){
+            game.doCommand(new Command(Activities.Turn, Directions.Left, player));
         }
 
         //TODO: handle it

@@ -42,6 +42,25 @@ public class Drawer {
 
     private static void drawSpaceObjectOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         ImageView objectImageView = new ImageView(space.getObject().getObjectTexture());
+        switch (space.getObject().getDirection()){
+            case Up:{
+                objectImageView.setRotate(0);
+            }
+            break;
+            case Right:{
+                objectImageView.setRotate(90);
+            }
+            break;
+            case Down:{
+                objectImageView.setRotate(180);
+            }
+            break;
+            case Left:{
+                objectImageView.setRotate(270);
+            }
+            break;
+
+        }
         objectImageView.setFitWidth(singleSize);
         objectImageView.setFitHeight(singleSize);
         objectImageView.setX(x);
