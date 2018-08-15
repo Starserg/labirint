@@ -23,4 +23,8 @@ public class Game {
         gameLogic.doCommand(cmd);
     }
 
+
+    public int getLogicFPS(){
+        return gameLogic.getFps();
+    }
 }

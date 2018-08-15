@@ -163,6 +163,7 @@ public class GameWindowController {
         if(LocalTime.now().isAfter(lastFrameCountTime.plusSeconds(1))){
             lastFrameCountTime = LocalTime.now();
             FPSLabel.setText(String.valueOf(frameCounter));
+            logicFPSLabel.setText(String.valueOf(game.getLogicFPS()));
             frameCounter = 0;
         }
         else{

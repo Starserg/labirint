@@ -9,6 +9,7 @@ import sample.entities.mapObjects.Monster;
 import sample.enums.Activities;
 import sample.enums.Directions;
 
+import java.time.LocalTime;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,11 +21,17 @@ public class GameLogic {
         map = MapMaker.makeRandomMap(width, height);
         updateTimer = new Timer();
         logicRandom = new Random();
+        fpsCounter = 0;
+        fps = 0;
+        lastFPSCount = LocalTime.now();
     }
 
     private Map map;
     private Timer updateTimer;
     private Random logicRandom;
+    private int fpsCounter;
+    private int fps;
+    private LocalTime lastFPSCount;
 
     public Map getMap(){
         return this.map;
@@ -50,6 +57,14 @@ public class GameLogic {
             if(!o.isEnabled()){
                 moveObject(o);
             }
+        }
+        if(LocalTime.now().isAfter(lastFPSCount.plusSeconds(1))){
+            lastFPSCount = LocalTime.now();
+            fps = fpsCounter;
+            fpsCounter = 0;
+        }
+        else{
+            fpsCounter++;
         }
     }
 
@@ -178,4 +193,9 @@ public class GameLogic {
         return Directions.Up;
     }
 
+
+
+    public int getFps(){
+        return this.fps;
+    }
 }
