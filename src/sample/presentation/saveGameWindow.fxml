@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="551.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.SaveGameWindowController">
+   <children>
+      <Button fx:id="saveButton" layoutX="467.0" layoutY="337.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="67.0" prefWidth="154.0" text="Save" />
+      <Button fx:id="backButton" layoutX="113.0" layoutY="337.0" mnemonicParsing="false" onAction="#goBackToGame" prefHeight="67.0" prefWidth="154.0" text="Back" />
+      <TextField fx:id="nameTextField" layoutX="228.0" layoutY="168.0" prefHeight="35.0" prefWidth="268.0" promptText="name of game">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>
