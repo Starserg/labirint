@@ -150,7 +150,6 @@ public class GameWindowController {
     }
 
     private void drawGameContent(){
-      //  ArrayList<ImageView> frame = Drawer.getGameFrame(game.getGameMap(), null); //TODO: set player
         ArrayList<ImageView> frame = null;
         try {
             frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)gameContentPane.getPrefWidth(), (int)gameContentPane.getPrefHeight());

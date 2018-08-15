@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import sample.Constants;
 import sample.entities.Map;
 import sample.entities.Space;
+import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
 
 import javax.imageio.ImageIO;
@@ -26,6 +27,7 @@ public class MapMaker {
         Player player1 = new Player(0, 0, Constants.playerId);
         spaces[0][0].setObject(player1);
         setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
+        setRandomMonsters(spaces, spaces.length*spaces[0].length/30);
         //TODO: set randomize logic here
         return new Map(spaces);
     }
@@ -49,6 +51,22 @@ public class MapMaker {
         Random random = new Random();
         for(int i = 0; i < countOfWalls; i++){
             if(!setWall(spaces, random.nextInt(spaces.length-1), random.nextInt(spaces[0].length-1), random.nextInt(4))){
+                i--;
+            }
+        }
+    }
+
+    private static void setRandomMonsters(Space[][] spaces, int countOfMonsters){
+        Random random = new Random();
+        int randomX;
+        int randomY;
+        for(int i = 0; i < countOfMonsters; i++){
+            randomX = random.nextInt(spaces.length-1);
+            randomY = random.nextInt(spaces[0].length - 1);
+            if(spaces[randomX][randomY].getObject() == null){
+                spaces[randomX][randomY].setObject(new Monster(randomX, randomY));
+            }
+            else{
                 i--;
             }
         }

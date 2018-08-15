@@ -5,8 +5,11 @@ import sample.DAL.MapMaker;
 import sample.entities.Command;
 import sample.entities.Map;
 import sample.entities.mapObjects.GameObject;
+import sample.entities.mapObjects.Monster;
+import sample.enums.Activities;
 import sample.enums.Directions;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,10 +19,12 @@ public class GameLogic {
     public GameLogic(int width, int height){
         map = MapMaker.makeRandomMap(width, height);
         updateTimer = new Timer();
+        logicRandom = new Random();
     }
 
     private Map map;
     private Timer updateTimer;
+    private Random logicRandom;
 
     public Map getMap(){
         return this.map;
@@ -40,6 +45,7 @@ public class GameLogic {
 
 
     private void updateMap() throws Exception {
+        randomMoveMonsters();
         for(GameObject o: map.getGameObjects()){
             if(!o.isEnabled()){
                 moveObject(o);
@@ -69,7 +75,6 @@ public class GameLogic {
             //TODO: add other variants
         }
     }
-
 
     private void moveObject(GameObject obj) throws Exception {
         double newDelta = obj.getDelta()+obj.getSpeed();
@@ -142,6 +147,35 @@ public class GameLogic {
             }
             break;
         }
+    }
+
+
+    private void randomMoveMonsters() throws Exception {
+        for(GameObject object: map.getGameObjects()){
+            if(object instanceof Monster && object.isEnabled()){
+                doCommand(new Command(Activities.Go, getRandomDirection(), object));
+            }
+        }
+    }
+
+
+    private Directions getRandomDirection(){
+        int direction = logicRandom.nextInt(4);
+        switch (direction){
+            case 0:{
+                return Directions.Up;
+            }
+            case 1:{
+                return Directions.Right;
+            }
+            case 2:{
+                return Directions.Down;
+            }
+            case 3:{
+                return Directions.Left;
+            }
+        }
+        return Directions.Up;
     }
 
 }
