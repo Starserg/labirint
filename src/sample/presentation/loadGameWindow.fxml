@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="503.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.LoadGameWindowController">
+   <children>
+      <ListView fx:id="gamesList" layoutX="115.0" layoutY="61.0" prefHeight="200.0" prefWidth="466.0" />
+       <Button fx:id="loadButton" layoutX="427.0" layoutY="337.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="67.0" prefWidth="154.0" text="Load" />
+       <Button fx:id="backButton" layoutX="115.0" layoutY="337.0" mnemonicParsing="false" onAction="#goBackToMenu" prefHeight="67.0" prefWidth="154.0" text="Back" />
+   </children>
+</AnchorPane>

@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
+
 
 public class MapMaker {
 
@@ -32,7 +34,6 @@ public class MapMaker {
         return new Map(spaces);
     }
 
-
     private static void setGroundImagesToSpaces(Space[][] spaces){
         Image[] grounds = new Image[Constants.variantsOfGround];
         for(int i = 0; i < grounds.length; i++){
@@ -45,7 +46,6 @@ public class MapMaker {
             }
         }
     }
-
 
     private static void setRandomWalls(Space[][] spaces, int countOfWalls){
         Random random = new Random();
@@ -71,7 +71,6 @@ public class MapMaker {
             }
         }
     }
-
 
     private static boolean setWall(Space[][] spaces, int x, int y, int direction){
         if(direction < 0 || direction > 3 || x < 0 || y < 0 || x >= spaces.length || y >= spaces[0].length){
@@ -112,6 +111,41 @@ public class MapMaker {
         }
 
         return true;
+    }
+
+    private static Map loadMap(String name){
+        Map answer;
+        String[] tempStringSplit;
+        String tempString;
+
+        try{
+            Scanner scanner = new Scanner("/resources/savegames/" + name + ".txt");
+            scanner.useDelimiter(System.getProperty("line.separator"));
+            tempStringSplit = scanner.next().split(" ");
+            Space[][] spaces = new Space[Integer.parseInt(tempStringSplit[0])][Integer.parseInt(tempStringSplit[1])];
+            for(int i = 0; i < spaces.length; i++){
+                tempString = scanner.next();
+                for(int j = 0; j < spaces[0].length; i++){
+                    spaces[i][j] = new Space(i, j);
+                    for(int k = 0; k < 4; k++){
+                        if(tempString.charAt(j*4+k) == '1'){
+                            spaces[i][j].getWalls()[k] = true;
+                        }
+                    }
+                }
+            }
+            tempStringSplit = scanner.next().split(" ");
+            Player player = new Player(Integer.parseInt(tempStringSplit[0]), Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2]));
+            //TODO: set loading logic here
+
+            answer = new Map(spaces);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        return answer;
     }
 
 

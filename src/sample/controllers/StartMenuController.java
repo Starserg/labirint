@@ -36,6 +36,13 @@ public class StartMenuController {
         gameSceneRoot.requestFocus();
     }
 
+    public void goToLoadWindow(ActionEvent event) throws IOException {
+        Stage stage = Main.getStage();
+        Parent gameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/loadGameWindow.fxml"));
+        stage.setScene(new Scene(gameSceneRoot));
+    }
+
+
 
     public void exit(ActionEvent event){
         Main.getStage().close();
