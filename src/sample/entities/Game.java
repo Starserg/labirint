@@ -8,6 +8,10 @@ public class Game {
         gameLogic = new GameLogic(mapWidth, mapHeight);
     }
 
+    public Game(Map loadedMap){
+        gameLogic = new GameLogic(loadedMap);
+    }
+
     private GameLogic gameLogic;
 
     public Map getGameMap() {

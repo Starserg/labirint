@@ -17,6 +17,7 @@ import sample.Constants;
 import sample.Main;
 import sample.entities.Command;
 import sample.entities.Game;
+import sample.entities.Map;
 import sample.entities.mapObjects.Player;
 import sample.enums.Activities;
 import sample.enums.Directions;
@@ -37,13 +38,18 @@ public class GameWindowController {
     @FXML
     public void initialize() {
         //TODO: refactor it!
-        this.game = new Game(20, 20);
+        if(randomGame) {
+            this.game = new Game(20, 20);
+        }
+        else {
+            this.game = new Game(loadedMap);
+        }
         playerId = Constants.playerId;
         try {
             player = game.getGameMap().getPlayerById(playerId);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             updatePictureTimer.cancel();
+            randomGame = true;
             Stage stage = Main.getStage();
             Parent menuSceneRoot = null;
             try {
@@ -62,6 +68,8 @@ public class GameWindowController {
                 game.startGame();
             }
         }, 500);
+
+
     }
 
 
@@ -82,6 +90,11 @@ public class GameWindowController {
     @FXML
     Button exitButton;
 
+
+    public static boolean randomGame = true;
+
+    public static Map loadedMap;
+
     private Timer startTimer;
     private Timer updatePictureTimer;
 
@@ -93,6 +106,7 @@ public class GameWindowController {
 
 
     public void exitFromGame(ActionEvent event) throws IOException {
+        randomGame = true;
         updatePictureTimer.cancel();
         Stage stage = Main.getStage();
         Parent menuSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/startMenu.fxml"));

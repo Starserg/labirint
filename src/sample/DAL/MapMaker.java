@@ -8,8 +8,7 @@ import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -113,32 +112,44 @@ public class MapMaker {
         return true;
     }
 
-    private static Map loadMap(String name){
+    public static Map loadMap(String name){
         Map answer;
         String[] tempStringSplit;
         String tempString;
 
         try{
-            Scanner scanner = new Scanner("/resources/savegames/" + name + ".txt");
-            scanner.useDelimiter(System.getProperty("line.separator"));
-            tempStringSplit = scanner.next().split(" ");
-            Space[][] spaces = new Space[Integer.parseInt(tempStringSplit[0])][Integer.parseInt(tempStringSplit[1])];
-            for(int i = 0; i < spaces.length; i++){
-                tempString = scanner.next();
-                for(int j = 0; j < spaces[0].length; i++){
-                    spaces[i][j] = new Space(i, j);
-                    for(int k = 0; k < 4; k++){
-                        if(tempString.charAt(j*4+k) == '1'){
-                            spaces[i][j].getWalls()[k] = true;
+            //TODO: replace absolute path!!!
+            FileInputStream inputStream = new FileInputStream("C:\\Users\\starserver\\IdeaProjects\\labirint\\src\\resources\\savegames\\" + name + ".txt");
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                tempStringSplit = reader.readLine().split(" ");
+
+                Space[][] spaces = new Space[Integer.parseInt(tempStringSplit[0])][Integer.parseInt(tempStringSplit[1])];
+                for (int i = 0; i < spaces.length; i++) {
+                    tempString = reader.readLine();
+                    for (int j = 0; j < spaces[0].length; j++) {
+                        spaces[i][j] = new Space(i, j);
+                        for (int k = 0; k < 4; k++) {
+                            if (tempString.charAt(j * 4 + k) == '1') {
+                                spaces[i][j].getWalls()[k] = true;
+                            }
                         }
                     }
                 }
-            }
-            tempStringSplit = scanner.next().split(" ");
-            Player player = new Player(Integer.parseInt(tempStringSplit[0]), Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2]));
-            //TODO: set loading logic here
+                setGroundImagesToSpaces(spaces);
+                tempStringSplit = reader.readLine().split(" ");
+                Player player = new Player(Integer.parseInt(tempStringSplit[0]), Integer.parseInt(tempStringSplit[1]), Constants.playerId);
+                spaces[player.getX()][player.getY()].setObject(player);
+                int countOfObjects = Integer.parseInt(reader.readLine());
+                for(int i = 0; i < countOfObjects; i++){
+                    tempStringSplit = reader.readLine().split(" ");
+                    if(tempStringSplit[0].equals("m")){
+                        spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Monster(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
+                    }
+                }
+                //TODO: set loading logic here
 
-            answer = new Map(spaces);
+                answer = new Map(spaces);
+            }
         }
         catch (Exception ex){
             ex.printStackTrace();

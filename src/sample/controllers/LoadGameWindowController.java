@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import sample.DAL.MapMaker;
 import sample.Main;
 
 import java.io.File;
@@ -21,18 +22,14 @@ public class LoadGameWindowController {
 
     @FXML
     public void initialize() {
-        File directory = new File("/resources/savegames");
-        String[] files = directory.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".txt");
-            }
-        });
+        //TODO: replace absolute path!!!
+        File directory = new File("C:\\Users\\starserver\\IdeaProjects\\labirint\\src\\resources\\savegames");
+        String[] files = directory.list();
 
         ObservableList list = FXCollections.observableArrayList();
         if(files!= null){
             for(int i =0; i < files.length; i++){
-                list.add(files[i]);
+                list.add(files[i].replace(".txt", ""));
             }
         }
         gamesList.setItems(list);
@@ -51,8 +48,15 @@ public class LoadGameWindowController {
 
 
 
-    public void loadGame(ActionEvent event){
-
+    public void loadGame(ActionEvent event) throws IOException {
+        if(gamesList.getSelectionModel().getSelectedItem() != null) {
+            GameWindowController.loadedMap = MapMaker.loadMap(gamesList.getSelectionModel().getSelectedItem());
+            GameWindowController.randomGame = false;
+            Stage stage = Main.getStage();
+            Parent gameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/gameWindow.fxml"));
+            stage.setScene(new Scene(gameSceneRoot));
+            gameSceneRoot.requestFocus();
+        }
     }
 
 

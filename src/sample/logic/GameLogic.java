@@ -26,6 +26,16 @@ public class GameLogic {
         lastFPSCount = LocalTime.now();
     }
 
+    public GameLogic(Map loadedMap){
+        map = loadedMap;
+        updateTimer = new Timer();
+        logicRandom = new Random();
+        fpsCounter = 0;
+        fps = 0;
+        lastFPSCount = LocalTime.now();
+    }
+
+
     private Map map;
     private Timer updateTimer;
     private Random logicRandom;
