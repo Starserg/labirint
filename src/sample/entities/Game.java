@@ -31,4 +31,9 @@ public class Game {
     public int getLogicFPS(){
         return gameLogic.getFps();
     }
+
+    public void setPause(boolean pause){
+        gameLogic.setPause(pause);
+    }
+
 }

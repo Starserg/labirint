@@ -185,4 +185,13 @@ public class GameWindowController {
         }
     }
 
+
+
+    public void openSaveWindow(ActionEvent event) throws IOException {
+        game.setPause(true);
+        Stage stage = Main.getStage();
+        Parent saveGameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/saveGameWindow.fxml"));
+        stage.setScene(new Scene(saveGameSceneRoot));
+    }
+
 }

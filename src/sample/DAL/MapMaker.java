@@ -7,10 +7,12 @@ import sample.entities.Space;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
 
-import javax.imageio.ImageIO;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
-import java.util.Scanner;
+
 
 
 public class MapMaker {

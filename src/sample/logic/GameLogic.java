@@ -19,6 +19,7 @@ public class GameLogic {
     //TODO: handle exceptions
     public GameLogic(int width, int height){
         map = MapMaker.makeRandomMap(width, height);
+        pause = false;
         updateTimer = new Timer();
         logicRandom = new Random();
         fpsCounter = 0;
@@ -28,6 +29,7 @@ public class GameLogic {
 
     public GameLogic(Map loadedMap){
         map = loadedMap;
+        pause = false;
         updateTimer = new Timer();
         logicRandom = new Random();
         fpsCounter = 0;
@@ -42,6 +44,7 @@ public class GameLogic {
     private int fpsCounter;
     private int fps;
     private LocalTime lastFPSCount;
+    private boolean pause;
 
     public Map getMap(){
         return this.map;
@@ -203,6 +206,10 @@ public class GameLogic {
         return Directions.Up;
     }
 
+
+    public void setPause(boolean pause){
+        this.pause = pause;
+    }
 
 
     public int getFps(){
