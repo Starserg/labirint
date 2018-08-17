@@ -65,19 +65,20 @@ public class GameLogic {
 
 
     private void updateMap() throws Exception {
-        randomMoveMonsters();
-        for(GameObject o: map.getGameObjects()){
-            if(!o.isEnabled()){
-                moveObject(o);
+        if(!pause) {
+            randomMoveMonsters();
+            for (GameObject o : map.getGameObjects()) {
+                if (!o.isEnabled()) {
+                    moveObject(o);
+                }
             }
-        }
-        if(LocalTime.now().isAfter(lastFPSCount.plusSeconds(1))){
-            lastFPSCount = LocalTime.now();
-            fps = fpsCounter;
-            fpsCounter = 0;
-        }
-        else{
-            fpsCounter++;
+            if (LocalTime.now().isAfter(lastFPSCount.plusSeconds(1))) {
+                lastFPSCount = LocalTime.now();
+                fps = fpsCounter;
+                fpsCounter = 0;
+            } else {
+                fpsCounter++;
+            }
         }
     }
 

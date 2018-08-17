@@ -6,7 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sample.DAL.MapSaver;
 import sample.Main;
@@ -31,9 +33,19 @@ public class SaveGameWindowController {
     @FXML
     TextField nameTextField;
 
+    @FXML
+    Label messageLabel;
+
 
     public void saveGame(ActionEvent event){
-        MapSaver.saveGame(tempMap, nameTextField.getText());
+        if(MapSaver.saveGame(tempMap, nameTextField.getText())){
+            messageLabel.setTextFill(Color.rgb(50, 150, 50));
+            messageLabel.setText("game successfully saved");
+        }
+        else{
+            messageLabel.setTextFill(Color.rgb(200, 50, 50));
+            messageLabel.setText("error, game wasn't saved");
+        }
     }
 
 

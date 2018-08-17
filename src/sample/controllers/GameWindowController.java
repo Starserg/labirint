@@ -189,6 +189,9 @@ public class GameWindowController {
 
     public void openSaveWindow(ActionEvent event) throws IOException {
         game.setPause(true);
+        SaveGameWindowController.tempMap = game.getGameMap();
+        loadedMap = game.getGameMap();
+        randomGame = false;
         Stage stage = Main.getStage();
         Parent saveGameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/saveGameWindow.fxml"));
         stage.setScene(new Scene(saveGameSceneRoot));
