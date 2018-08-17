@@ -2,6 +2,7 @@ package sample.DAL;
 
 import sample.Constants;
 import sample.entities.Map;
+import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
 
 import java.io.BufferedWriter;
@@ -40,6 +41,9 @@ public class MapSaver {
                 for (int i = 0; i < map.getGameObjects().size(); i++){
                     if(map.getGameObjects().get(i) instanceof Monster){
                         writer.write("m " + map.getGameObjects().get(i).getX() + " " + map.getGameObjects().get(i).getY() + System.lineSeparator());
+                    }
+                    else if(map.getGameObjects().get(i) instanceof Box){
+                        writer.write("b " + map.getGameObjects().get(i).getX() + " " + map.getGameObjects().get(i).getY() + System.lineSeparator());
                     }
                 }
                 writer.flush();

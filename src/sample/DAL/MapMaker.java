@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import sample.Constants;
 import sample.entities.Map;
 import sample.entities.Space;
+import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
 
@@ -146,6 +147,9 @@ public class MapMaker {
                     tempStringSplit = reader.readLine().split(" ");
                     if(tempStringSplit[0].equals("m")){
                         spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Monster(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
+                    }
+                    else if(tempStringSplit[0].equals("b")){
+                        spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Box(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
                     }
                 }
                 //TODO: set loading logic here
