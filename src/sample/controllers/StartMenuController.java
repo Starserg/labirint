@@ -7,13 +7,34 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.Constants;
 import sample.Main;
 
 import java.io.IOException;
 
 public class StartMenuController {
+
+
+    @FXML
+    public void initialize(){
+        SpinnerValueFactory<Integer> valueFactoryX = new SpinnerValueFactory.IntegerSpinnerValueFactory(Constants.minMapSize, Constants.maxMapSize, Constants.minMapSize);
+        SpinnerValueFactory<Integer> valueFactoryY = new SpinnerValueFactory.IntegerSpinnerValueFactory(Constants.minMapSize, Constants.maxMapSize, Constants.minMapSize);
+        spinnerX.setValueFactory(valueFactoryX);
+        spinnerY.setValueFactory(valueFactoryY);
+        spinnerX.setLayoutX(150);
+        spinnerY.setLayoutX(150);
+        spinnerY.setLayoutY(50);
+        mainPane.getChildren().add(spinnerX);
+        mainPane.getChildren().add(spinnerY);
+    }
+
+
+    final Spinner<Integer> spinnerX = new Spinner<Integer>();
+    final Spinner<Integer> spinnerY = new Spinner<Integer>();
 
 
     @FXML
