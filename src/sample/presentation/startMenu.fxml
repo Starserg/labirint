@@ -13,5 +13,7 @@
       <Button fx:id="newGameButton" layoutX="253.0" layoutY="178.0" mnemonicParsing="false" onAction="#startNewGame" prefHeight="67.0" prefWidth="203.0" text="New game" />
       <Button fx:id="loadGameButton" layoutX="253.0" layoutY="310.0" mnemonicParsing="false" onAction="#goToLoadWindow" prefHeight="67.0" prefWidth="203.0" text="Load game" />
       <Button fx:id="exitButton" layoutX="253.0" layoutY="447.0" mnemonicParsing="false" onAction="#exit" prefHeight="67.0" prefWidth="203.0" text="Exit" />
+      <Label fx:id="label1" layoutX="464.0" layoutY="178.0" prefHeight="17.0" prefWidth="51.0" text="Width:" />
+      <Label fx:id="label2" layoutX="464.0" layoutY="228.0" prefHeight="17.0" prefWidth="51.0" text="Height:" />
    </children>
 </AnchorPane>

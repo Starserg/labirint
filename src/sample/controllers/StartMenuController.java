@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -25,9 +26,10 @@ public class StartMenuController {
         SpinnerValueFactory<Integer> valueFactoryY = new SpinnerValueFactory.IntegerSpinnerValueFactory(Constants.minMapSize, Constants.maxMapSize, Constants.minMapSize);
         spinnerX.setValueFactory(valueFactoryX);
         spinnerY.setValueFactory(valueFactoryY);
-        spinnerX.setLayoutX(150);
-        spinnerY.setLayoutX(150);
-        spinnerY.setLayoutY(50);
+        spinnerX.setLayoutX(520);
+        spinnerY.setLayoutX(520);
+        spinnerX.setLayoutY(170);
+        spinnerY.setLayoutY(220);
         mainPane.getChildren().add(spinnerX);
         mainPane.getChildren().add(spinnerY);
     }
@@ -49,8 +51,16 @@ public class StartMenuController {
     @FXML
     Button exitButton;
 
+    @FXML
+    Label label1;
+
+    @FXML
+    Label label2;
+
 
     public void startNewGame(ActionEvent event) throws IOException {
+        GameWindowController.randomMapWidth = spinnerX.getValue();
+        GameWindowController.randomMapHeight = spinnerY.getValue();
         Stage stage = Main.getStage();
         Parent gameSceneRoot = FXMLLoader.load(getClass().getResource("../presentation/gameWindow.fxml"));
         stage.setScene(new Scene(gameSceneRoot));

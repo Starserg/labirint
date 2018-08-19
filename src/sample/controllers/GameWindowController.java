@@ -37,9 +37,8 @@ public class GameWindowController {
 
     @FXML
     public void initialize() {
-        //TODO: refactor it!
         if(randomGame) {
-            this.game = new Game(20, 20);
+            this.game = new Game(randomMapWidth, randomMapHeight);
         }
         else {
             this.game = new Game(loadedMap);
@@ -92,6 +91,8 @@ public class GameWindowController {
 
 
     public static boolean randomGame = true;
+    public static int randomMapWidth = Constants.minMapSize;
+    public static int randomMapHeight = Constants.minMapSize;
 
     public static Map loadedMap;
 
