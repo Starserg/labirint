@@ -29,4 +29,8 @@ public class Player extends GameObject implements IThingsContainer{
     public int getSeeSize(){
         return seeSize;
     }
+
+    public IWeapon getTempWeapon() {
+        return tempWeapon;
+    }
 }

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +20,8 @@ import sample.entities.Command;
 import sample.entities.Game;
 import sample.entities.Map;
 import sample.entities.mapObjects.Player;
+import sample.entities.things.Bomb;
+import sample.entities.things.Pistol;
 import sample.enums.Activities;
 import sample.enums.Directions;
 import sample.presentation.Drawer;
@@ -89,6 +92,9 @@ public class GameWindowController {
     @FXML
     Button exitButton;
 
+    @FXML
+    ImageView tempThingImageView;
+
 
     public static boolean randomGame = true;
     public static int randomMapWidth = Constants.minMapSize;
@@ -101,6 +107,10 @@ public class GameWindowController {
 
     private int playerId;
     private Player player;
+
+    private Image bombImage = new Image("/resources/textures/bomb1.png");
+    private Image pistolImage = new Image("/resources/textures/pistol1.png");
+    private Image handImage = new Image("/resources/textures/hand1.png");
 
     private int frameCounter = 0;
     private LocalTime lastFrameCountTime;
@@ -183,6 +193,15 @@ public class GameWindowController {
         }
         else{
             frameCounter++;
+        }
+        if(player.getTempWeapon() == null){
+            tempThingImageView.setImage(handImage);
+        }
+        else if(player.getTempWeapon() instanceof Pistol){
+            tempThingImageView.setImage(pistolImage);
+        }
+        else if((player.getTempWeapon() instanceof Bomb)){
+            tempThingImageView.setImage(bombImage);
         }
     }
 
