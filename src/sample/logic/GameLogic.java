@@ -3,9 +3,12 @@ package sample.logic;
 import sample.Constants;
 import sample.DAL.MapMaker;
 import sample.entities.Command;
+import sample.entities.IWeapon;
 import sample.entities.Map;
 import sample.entities.mapObjects.GameObject;
 import sample.entities.mapObjects.Monster;
+import sample.entities.mapObjects.Player;
+import sample.entities.things.Thing;
 import sample.enums.Activities;
 import sample.enums.Directions;
 
@@ -99,9 +102,13 @@ public class GameLogic {
                 }
             }
             break;
+            case SpinWeapon:{
+                if(cmd.getObject() instanceof Player){
+                    ((Player)cmd.getObject()).spinWeapon();
+                }
+            }
 
 
-            //TODO: add other variants
         }
     }
 
@@ -135,6 +142,14 @@ public class GameLogic {
                 obj.setX(obj.getX()-1);
             }
             break;
+        }
+        if(obj instanceof Player){
+            for(IWeapon weapon: ((Player) obj).getWeapons()){
+                if(weapon instanceof Thing){
+                    ((Thing)weapon).setX(obj.getX());
+                    ((Thing)weapon).setY(obj.getY());
+                }
+            }
         }
         obj.setEnabled(true);
     }

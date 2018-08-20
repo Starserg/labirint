@@ -1,9 +1,12 @@
 package sample.DAL;
 
 import sample.Constants;
+import sample.entities.IWeapon;
 import sample.entities.Map;
 import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
+import sample.entities.things.Bomb;
+import sample.entities.things.Pistol;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,6 +40,17 @@ public class MapSaver {
                     writer.write(System.lineSeparator());
                 }
                 writer.write(map.getPlayerById(Constants.playerId).getX() + " " +  map.getPlayerById(Constants.playerId).getY() + System.lineSeparator());
+                writer.write(map.getPlayerById(Constants.playerId).getWeapons().size() + System.lineSeparator());
+                if(map.getPlayerById(Constants.playerId).getWeapons().size()>0){
+                    for(IWeapon weapon : map.getPlayerById(Constants.playerId).getWeapons()){
+                        if(weapon instanceof Pistol){
+                            writer.write("pistol" + System.lineSeparator());
+                        }
+                        else if(weapon instanceof Bomb){
+                            writer.write("bomb" + System.lineSeparator());
+                        }
+                    }
+                }
                 writer.write((map.getGameObjects().size()-1) + System.lineSeparator());
                 for (int i = 0; i < map.getGameObjects().size(); i++){
                     if(map.getGameObjects().get(i) instanceof Monster){

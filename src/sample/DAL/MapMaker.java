@@ -7,6 +7,8 @@ import sample.entities.Space;
 import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
+import sample.entities.things.Bomb;
+import sample.entities.things.Pistol;
 
 
 import java.io.BufferedReader;
@@ -141,6 +143,18 @@ public class MapMaker {
                 setGroundImagesToSpaces(spaces);
                 tempStringSplit = reader.readLine().split(" ");
                 Player player = new Player(Integer.parseInt(tempStringSplit[0]), Integer.parseInt(tempStringSplit[1]), Constants.playerId);
+                int countOfWeapons = Integer.parseInt(reader.readLine());
+                if(countOfWeapons > 0){
+                    for(int i = 0 ; i< countOfWeapons; i++){
+                        tempString = reader.readLine();
+                        if(tempString.equals("pistol")){
+                            player.getWeapons().add(new Pistol(player.getX(), player.getY()));
+                        }
+                        else if(tempString.equals("bomb")){
+                            player.getWeapons().add(new Bomb(player.getX(), player.getY()));
+                        }
+                    }
+                }
                 spaces[player.getX()][player.getY()].setObject(player);
                 int countOfObjects = Integer.parseInt(reader.readLine());
                 for(int i = 0; i < countOfObjects; i++){
@@ -152,7 +166,7 @@ public class MapMaker {
                         spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Box(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
                     }
                 }
-                //TODO: set loading logic here
+
 
                 answer = new Map(spaces);
             }

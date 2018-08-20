@@ -152,8 +152,10 @@ public class GameWindowController {
         else if(event.getCode().toString().equals("LEFT")){
             game.doCommand(new Command(Activities.Turn, Directions.Left, player));
         }
+        else if(event.getCode().toString().equals("CONTROL")){
+            game.doCommand(new Command(Activities.SpinWeapon, null, player));
+        }
 
-        //TODO: handle it
     }
 
 
