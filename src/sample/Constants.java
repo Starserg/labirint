@@ -8,8 +8,10 @@ public class Constants {
     public static int playerId = 1;
     public static int playerSeeSize = 3;
     public static int minMapSize = 10;
-    public  static int maxMapSize = 50;
+    public static int maxMapSize = 50;
     public static int playerHp = 100;
-    public static int boxHp = 20;
+    public static int boxHp = 25;
     public static int monsterHp = 50;
+    public static int secondsToPistolRecharge = 2;
+    public static int pistolDamage = 25;
 }

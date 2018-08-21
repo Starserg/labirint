@@ -7,6 +7,7 @@ import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Player extends GameObject implements IThingsContainer{
@@ -19,6 +20,7 @@ public class Player extends GameObject implements IThingsContainer{
         this.texturePistol = new Image("/resources/textures/playerPistol1.png");
         this.textureBomb = new Image("/resources/textures/playerBomb1.png");
         this.objectTexture = texture1;
+        lastShotTime = LocalTime.now();
     }
 
     private ArrayList<IWeapon> weapons;
@@ -29,6 +31,8 @@ public class Player extends GameObject implements IThingsContainer{
     private Image texture1;
     private Image texturePistol;
     private Image textureBomb;
+
+    private LocalTime lastShotTime;
 
 
     public int getId() {
@@ -83,4 +87,13 @@ public class Player extends GameObject implements IThingsContainer{
         }
     }
 
+
+    public LocalTime getLastShotTime() {
+        return lastShotTime;
+    }
+
+
+    public void setLastShotTime(LocalTime lastShotTime) {
+        this.lastShotTime = lastShotTime;
+    }
 }

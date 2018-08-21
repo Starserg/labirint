@@ -8,6 +8,7 @@ import sample.entities.Map;
 import sample.entities.mapObjects.GameObject;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
+import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
 import sample.enums.Activities;
 import sample.enums.Directions;
@@ -112,7 +113,18 @@ public class GameLogic {
                     ((Player)cmd.getObject()).spinWeapon();
                 }
             }
+            break;
+            case Attack:{
+                if(cmd.getObject() instanceof Player){
+                    if(((Player)cmd.getObject()).getTempWeapon() instanceof Pistol){
+                        tryShot((Player)cmd.getObject(), cmd.getDirection());
+                    }
+                }
+                else if(cmd.getObject() instanceof Monster){
 
+                }
+            }
+            break;
 
         }
     }
@@ -177,6 +189,25 @@ public class GameLogic {
         return false;
     }
 
+    private boolean canBulletGo(Player player, Directions dir){
+        switch (dir){
+            case Up:{
+                return (player.getY()>0 && !map.getSpaces()[player.getX()][player.getY()].getWalls()[0]);
+            }
+            case Right:{
+                return (player.getX()+1 < map.getSpaces().length && !map.getSpaces()[player.getX()][player.getY()].getWalls()[1]);
+            }
+            case Down:{
+                return (player.getY()+1 < map.getSpaces()[0].length && !map.getSpaces()[player.getX()][player.getY()].getWalls()[2]);
+            }
+            case Left:{
+                return (player.getX() > 0 && !map.getSpaces()[player.getX()][player.getY()].getWalls()[3]);
+            }
+        }
+        return false;
+    }
+
+
     private void occupySpaceBeforeMoving(GameObject obj, Directions dir){
         switch (dir){
             case Up:{
@@ -198,7 +229,6 @@ public class GameLogic {
         }
     }
 
-
     private void randomMoveMonsters() throws Exception {
         for(GameObject object: map.getGameObjects()){
             if(object instanceof Monster && object.isEnabled()){
@@ -206,7 +236,6 @@ public class GameLogic {
             }
         }
     }
-
 
     private Directions getRandomDirection(){
         int direction = logicRandom.nextInt(4);
@@ -227,16 +256,15 @@ public class GameLogic {
         return Directions.Up;
     }
 
-
     public void setPause(boolean pause){
         this.pause = pause;
     }
-
 
     public int getFps(){
         return this.fps;
     }
 
+    //TODO: check user!!!
     private void checkObjectsHp(){
         removeList.clear();
         for(GameObject object: map.getGameObjects()){
@@ -249,7 +277,7 @@ public class GameLogic {
             for(int i = object.getX()-1; i <= object.getX()+1; i++){
                 for(int j = object.getY()-1; j <= object.getY()+1; j++){
                     if(i >= 0 && j >= 0 && i < map.getSpaces().length && j < map.getSpaces()[0].length){
-                        if(map.getSpaces()[i][j].getObject().equals(object)){
+                        if(map.getSpaces()[i][j].getObject() != null && map.getSpaces()[i][j].getObject().equals(object)){
                             map.getSpaces()[i][j].setObject(null);
                         }
                     }
@@ -258,4 +286,82 @@ public class GameLogic {
         }
     }
 
+
+
+    private void tryShot(Player player, Directions direction){
+        if(player.getLastShotTime().plusSeconds(Constants.secondsToPistolRecharge).isBefore(LocalTime.now()) && canBulletGo(player, direction)){
+            boolean breakCycle = false;
+            int tempX = player.getX();
+            int tempY = player.getY();
+            while (true){
+                switch (direction){
+                    case Up:{
+                        tempY--;
+                        if(tempY < 0){
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getObject() != null){
+                            damageObject(map.getSpaces()[tempX][tempY].getObject(), Constants.pistolDamage);
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getWalls()[0]){
+                            breakCycle = true;
+                        }
+                    }
+                    break;
+                    case Right:{
+                        tempX++;
+                        if(tempX >= map.getSpaces().length){
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getObject() != null){
+                            damageObject(map.getSpaces()[tempX][tempY].getObject(), Constants.pistolDamage);
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getWalls()[1]){
+                            breakCycle = true;
+                        }
+                    }
+                    break;
+                    case Down:{
+                        tempY++;
+                        if(tempY >= map.getSpaces()[0].length){
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getObject() != null){
+                            damageObject(map.getSpaces()[tempX][tempY].getObject(), Constants.pistolDamage);
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getWalls()[2]){
+                            breakCycle = true;
+                        }
+                    }
+                    break;
+                    case Left:{
+                        tempX--;
+                        if(tempX < 0){
+                            breakCycle = true;
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getObject() != null){
+                            breakCycle = true;
+                            damageObject(map.getSpaces()[tempX][tempY].getObject(), Constants.pistolDamage);
+                        }
+                        else if(map.getSpaces()[tempX][tempY].getWalls()[3]){
+                            breakCycle = true;
+                        }
+                    }
+                    break;
+                }
+                if(breakCycle){
+                    break;
+                }
+            }
+
+            player.setLastShotTime(LocalTime.now());
+        }
+    }
+
+    private void damageObject(GameObject object, int damage){
+        object.setHp(object.getHp()-damage);
+    }
 }

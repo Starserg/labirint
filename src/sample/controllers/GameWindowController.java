@@ -155,6 +155,9 @@ public class GameWindowController {
         else if(event.getCode().toString().equals("CONTROL")){
             game.doCommand(new Command(Activities.SpinWeapon, null, player));
         }
+        else if(event.getCode().toString().equals("SPACE")){
+            game.doCommand(new Command(Activities.Attack, player.getDirection(), player));
+        }
 
     }
 
