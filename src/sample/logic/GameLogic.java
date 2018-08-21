@@ -13,6 +13,7 @@ import sample.enums.Activities;
 import sample.enums.Directions;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,6 +29,7 @@ public class GameLogic {
         fpsCounter = 0;
         fps = 0;
         lastFPSCount = LocalTime.now();
+        removeList = new ArrayList<>();
     }
 
     public GameLogic(Map loadedMap){
@@ -38,6 +40,7 @@ public class GameLogic {
         fpsCounter = 0;
         fps = 0;
         lastFPSCount = LocalTime.now();
+        removeList = new ArrayList<>();
     }
 
 
@@ -48,6 +51,7 @@ public class GameLogic {
     private int fps;
     private LocalTime lastFPSCount;
     private boolean pause;
+    private ArrayList<GameObject> removeList;
 
     public Map getMap(){
         return this.map;
@@ -75,6 +79,7 @@ public class GameLogic {
                     moveObject(o);
                 }
             }
+            checkObjectsHp();
             if (LocalTime.now().isAfter(lastFPSCount.plusSeconds(1))) {
                 lastFPSCount = LocalTime.now();
                 fps = fpsCounter;
@@ -231,4 +236,26 @@ public class GameLogic {
     public int getFps(){
         return this.fps;
     }
+
+    private void checkObjectsHp(){
+        removeList.clear();
+        for(GameObject object: map.getGameObjects()){
+            if(object.getHp() <= 0){
+                removeList.add(object);
+            }
+        }
+        for(GameObject object: removeList){
+            map.getGameObjects().remove(object);
+            for(int i = object.getX()-1; i <= object.getX()+1; i++){
+                for(int j = object.getY()-1; j <= object.getY()+1; j++){
+                    if(i >= 0 && j >= 0 && i < map.getSpaces().length && j < map.getSpaces()[0].length){
+                        if(map.getSpaces()[i][j].getObject().equals(object)){
+                            map.getSpaces()[i][j].setObject(null);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

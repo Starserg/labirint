@@ -9,4 +9,7 @@ public class Constants {
     public static int playerSeeSize = 3;
     public static int minMapSize = 10;
     public  static int maxMapSize = 50;
+    public static int playerHp = 100;
+    public static int boxHp = 20;
+    public static int monsterHp = 50;
 }

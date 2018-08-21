@@ -5,7 +5,7 @@ import sample.enums.Directions;
 
 public abstract class GameObject {
 
-    public GameObject(int x, int y, double speed){
+    public GameObject(int x, int y, double speed, int hp){
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -13,6 +13,8 @@ public abstract class GameObject {
         this.directionOfMoving = Directions.Up;
         this.delta = 0;
         this.enabled = true;
+        this.hp = hp;
+        this.maxHp = hp;
     }
 
     protected int x;
@@ -22,6 +24,8 @@ public abstract class GameObject {
     protected Directions directionOfMoving;
     protected double delta;
     protected boolean enabled;
+    protected int hp;
+    protected int maxHp;
 
     public int getX() {
         return x;
@@ -111,8 +115,6 @@ public abstract class GameObject {
 
 
 
-    //for drawing (experiment)
-
     protected Image objectTexture;
 
     public Image getObjectTexture() {
@@ -123,5 +125,22 @@ public abstract class GameObject {
         if(objectTexture!= null){
             this.objectTexture = objectTexture;
         }
+    }
+
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 }

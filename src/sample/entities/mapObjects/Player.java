@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Player extends GameObject implements IThingsContainer{
     public Player(int x, int y, int id){
-        super(x, y, Constants.playerSpeed);
+        super(x, y, Constants.playerSpeed, Constants.playerHp);
         weapons =new ArrayList<>();
         this.id = id;
         this.seeSize = Constants.playerSeeSize;
