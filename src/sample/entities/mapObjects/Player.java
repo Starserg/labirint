@@ -159,6 +159,10 @@ public class Player extends GameObject implements IThingsContainer{
         }
     }
 
+    public boolean hasTorch() {
+        return withTorch;
+    }
+
     @Override
     public ArrayList<Thing> getThings() {
         return this.things;

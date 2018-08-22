@@ -40,7 +40,7 @@ public class MapSaver {
                     }
                     writer.write(System.lineSeparator());
                 }
-                writer.write(map.getPlayerById(Constants.playerId).getX() + " " +  map.getPlayerById(Constants.playerId).getY() + System.lineSeparator());
+                writer.write(map.getPlayerById(Constants.playerId).getX() + " " +  map.getPlayerById(Constants.playerId).getY() + " " + map.getPlayerById(Constants.playerId).hasTorch() + System.lineSeparator());
                 writer.write(map.getPlayerById(Constants.playerId).getWeapons().size() + System.lineSeparator());
                 if(map.getPlayerById(Constants.playerId).getWeapons().size()>0){
                     for(IWeapon weapon : map.getPlayerById(Constants.playerId).getWeapons()){

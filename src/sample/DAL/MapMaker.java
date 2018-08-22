@@ -30,13 +30,11 @@ public class MapMaker {
         }
         setGroundImagesToSpaces(spaces);
 
-        //TODO: very BAD CODE!!!!
-        Player player1 = new Player(0, 0, Constants.playerId);
+        Player player1 = new Player(Constants.startX, Constants.startY, Constants.playerId);
         spaces[0][0].setObject(player1);
         setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
         setRandomMonsters(spaces, spaces.length*spaces[0].length/50);
         setRandomBoxes(spaces, spaces.length*spaces[0].length/35);
-        //TODO: set randomize logic here
         return new Map(spaces);
     }
 
@@ -173,6 +171,9 @@ public class MapMaker {
                 setGroundImagesToSpaces(spaces);
                 tempStringSplit = reader.readLine().split(" ");
                 Player player = new Player(Integer.parseInt(tempStringSplit[0]), Integer.parseInt(tempStringSplit[1]), Constants.playerId);
+                if(Boolean.parseBoolean(tempStringSplit[2])){
+                    player.takeTorch();
+                }
                 int countOfWeapons = Integer.parseInt(reader.readLine());
                 if(countOfWeapons > 0){
                     for(int i = 0 ; i< countOfWeapons; i++){
