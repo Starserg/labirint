@@ -48,8 +48,49 @@ public class Map {
 
 
     public boolean canPlayerSeeSpace(Player player, Space space){
-        //TODO: refactor!
-        return true;
+        if(player.getX() == space.getX() && player.getY() == space.getY()){
+            return true;
+        }
+        if(player.getX() == space.getX()){
+            if(player.getY()<space.getY()){
+                for(int y = player.getY(); y < space.getY(); y++){
+                    if(spaces[player.getX()][y].getWalls()[2]){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else{
+                for(int y = space.getY(); y < player.getY(); y++){
+                    if(spaces[player.getX()][y].getWalls()[2]){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        if(player.getY() == space.getY()){
+            if(player.getX()<space.getX()){
+                for(int x = player.getX(); x < space.getX(); x++){
+                    if(spaces[x][player.getY()].getWalls()[1]){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else{
+                for(int x = space.getX(); x < player.getX(); x++){
+                    if(spaces[x][player.getY()].getWalls()[1]){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
 
