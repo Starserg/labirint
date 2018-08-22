@@ -26,7 +26,7 @@ import java.util.TimerTask;
 
 public class GameLogic {
 
-    //TODO: handle exceptions
+
     public GameLogic(int width, int height){
         map = MapMaker.makeRandomMap(width, height);
         pause = false;
@@ -58,6 +58,7 @@ public class GameLogic {
     private LocalTime lastFPSCount;
     private boolean pause;
     private ArrayList<GameObject> removeList;
+    private Directions randomMonsterDirection;
 
     public Map getMap(){
         return this.map;
@@ -246,7 +247,32 @@ public class GameLogic {
     private void randomMoveMonsters() throws Exception {
         for(GameObject object: map.getGameObjects()){
             if(object instanceof Monster && object.isEnabled()){
-                doCommand(new Command(Activities.Go, getRandomDirection(), object));
+                //TODO: refactor it!!!
+                if(object.getX() == map.getPlayers().get(0).getX() && Math.abs(object.getY() - map.getPlayers().get(0).getY())== 1){
+                    if(object.getY() > map.getPlayers().get(0).getY()){
+                        doCommand(new Command(Activities.Turn, Directions.Up, object));
+                        doCommand(new Command(Activities.Attack, Directions.Up, object));
+                    }
+                    else{
+                        doCommand(new Command(Activities.Turn, Directions.Down, object));
+                        doCommand(new Command(Activities.Attack, Directions.Down, object));
+                    }
+                }
+                else if(object.getY() == map.getPlayers().get(0).getY() && Math.abs(object.getX() - map.getPlayers().get(0).getX())== 1){
+                    if(object.getX() > map.getPlayers().get(0).getX()){
+                        doCommand(new Command(Activities.Turn, Directions.Left, object));
+                        doCommand(new Command(Activities.Attack, Directions.Left, object));
+                    }
+                    else{
+                        doCommand(new Command(Activities.Turn, Directions.Right, object));
+                        doCommand(new Command(Activities.Attack, Directions.Right, object));
+                    }
+                }
+                else{
+                    randomMonsterDirection = getRandomDirection();
+                    doCommand(new Command(Activities.Turn, randomMonsterDirection, object));
+                    doCommand(new Command(Activities.Go, randomMonsterDirection, object));
+                }
             }
         }
     }
