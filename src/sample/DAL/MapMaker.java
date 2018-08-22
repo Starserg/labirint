@@ -33,7 +33,8 @@ public class MapMaker {
         Player player1 = new Player(0, 0, Constants.playerId);
         spaces[0][0].setObject(player1);
         setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
-        setRandomMonsters(spaces, spaces.length*spaces[0].length/30);
+        setRandomMonsters(spaces, spaces.length*spaces[0].length/35);
+        setRandomBoxes(spaces, spaces.length*spaces[0].length/25);
         //TODO: set randomize logic here
         return new Map(spaces);
     }
@@ -51,10 +52,35 @@ public class MapMaker {
         }
     }
 
+
+
+    private static void setRandomBoxes(Space[][] spaces, int count){
+        Random random = new Random();
+        int randomX;
+        int randomY;
+        for(int i = 0; i < count; i++){
+            randomX = random.nextInt(spaces.length-1);
+            randomY = random.nextInt(spaces[0].length - 1);
+            if(spaces[randomX][randomY].getObject() == null){
+                Box box = new Box(randomX, randomY);
+                if(random.nextInt(Constants.countOfVariantsToPistol) > 0){
+                    box.getThings().add(new Pistol(box.getX(), box.getY()));
+                }
+                if(random.nextInt(Constants.countOfVariantsToBombs) > 0){
+                    box.getThings().add(new Bomb(box.getX(), box.getY(), Constants.countOfBombsInBox));
+                }
+                spaces[randomX][randomY].setObject(box);
+            }
+            else{
+                i--;
+            }
+        }
+    }
+
     private static void setRandomWalls(Space[][] spaces, int countOfWalls){
         Random random = new Random();
         for(int i = 0; i < countOfWalls; i++){
-            if(!setWall(spaces, random.nextInt(spaces.length-1), random.nextInt(spaces[0].length-1), random.nextInt(4))){
+            if(!setWall(spaces, random.nextInt(spaces.length), random.nextInt(spaces[0].length), random.nextInt(5))){
                 i--;
             }
         }
@@ -168,10 +194,10 @@ public class MapMaker {
                         for(int t = 0; t < thingsCount; t++){
                             tempStringSplit = reader.readLine().split(" ");
                             if(tempStringSplit[0].equals("pistol")){
-                                box.things.add(new Pistol(box.getX(), box.getY()));
+                                box.getThings().add(new Pistol(box.getX(), box.getY()));
                             }
                             else if(tempStringSplit[0].equals("bomb")){
-                                box.things.add(new Bomb(box.getX(), box.getY(), Integer.parseInt(tempStringSplit[1])));
+                                box.getThings().add(new Bomb(box.getX(), box.getY(), Integer.parseInt(tempStringSplit[1])));
                             }
                         }
                         spaces[box.getX()][box.getY()].setObject(box);

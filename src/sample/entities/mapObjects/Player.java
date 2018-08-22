@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Player extends GameObject implements IThingsContainer{
     public Player(int x, int y, int id){
         super(x, y, Constants.playerSpeed, Constants.playerHp);
+        things = new ArrayList<>();
         weapons =new ArrayList<>();
         this.id = id;
         this.seeSize = Constants.playerSeeSize;
@@ -33,6 +34,8 @@ public class Player extends GameObject implements IThingsContainer{
     private Image textureBomb;
 
     private LocalTime lastShotTime;
+
+    private ArrayList<Thing> things;
 
 
     public int getId() {
@@ -104,5 +107,10 @@ public class Player extends GameObject implements IThingsContainer{
         else{
             return 0;
         }
+    }
+
+    @Override
+    public ArrayList<Thing> getThings() {
+        return this.things;
     }
 }

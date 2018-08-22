@@ -59,8 +59,8 @@ public class MapSaver {
                     }
                     else if(map.getGameObjects().get(i) instanceof Box){
                         writer.write("b " + map.getGameObjects().get(i).getX() + " " + map.getGameObjects().get(i).getY() + System.lineSeparator());
-                        writer.write(((Box)map.getGameObjects().get(i)).things.size() + System.lineSeparator());
-                        for(Thing thing: ((Box)map.getGameObjects().get(i)).things){
+                        writer.write(((Box)map.getGameObjects().get(i)).getThings().size() + System.lineSeparator());
+                        for(Thing thing: ((Box)map.getGameObjects().get(i)).getThings()){
                             if(thing instanceof Pistol){
                                 writer.write("pistol" + System.lineSeparator());
                             }

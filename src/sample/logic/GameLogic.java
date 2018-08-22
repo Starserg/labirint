@@ -406,7 +406,7 @@ public class GameLogic {
 
     private void takeWeaponFromBox(Player player, Box box){
         boolean letsTakeThisWeapon = false;
-        for(Thing thing: box.things){
+        for(Thing thing: box.getThings()){
             if(thing instanceof IWeapon) {
                 letsTakeThisWeapon = true;
                 for (IWeapon weapon : player.getWeapons()) {
@@ -440,7 +440,7 @@ public class GameLogic {
 
     private void takeAllFromBox(Player player, Box box){
         takeWeaponFromBox(player, box);
-        box.things.clear();
+        box.getThings().clear();
         box.setObjectTexture(new Image("/resources/textures/box2.png"));
     }
 
