@@ -7,10 +7,7 @@ import sample.entities.Command;
 import sample.entities.IWeapon;
 import sample.entities.Map;
 import sample.entities.Space;
-import sample.entities.mapObjects.Box;
-import sample.entities.mapObjects.GameObject;
-import sample.entities.mapObjects.Monster;
-import sample.entities.mapObjects.Player;
+import sample.entities.mapObjects.*;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
@@ -29,6 +26,7 @@ public class GameLogic {
 
     public GameLogic(int width, int height){
         map = MapMaker.makeRandomMap(width, height);
+        endGame = false;
         pause = false;
         updateTimer = new Timer();
         logicRandom = new Random();
@@ -40,6 +38,7 @@ public class GameLogic {
 
     public GameLogic(Map loadedMap){
         map = loadedMap;
+        endGame = false;
         pause = false;
         updateTimer = new Timer();
         logicRandom = new Random();
@@ -59,6 +58,7 @@ public class GameLogic {
     private boolean pause;
     private ArrayList<GameObject> removeList;
     private Directions randomMonsterDirection;
+    private boolean endGame;
 
     public Map getMap(){
         return this.map;
@@ -130,7 +130,7 @@ public class GameLogic {
                     }
                 }
                 else if(cmd.getObject() instanceof Monster){
-
+                    tryByte((Monster) cmd.getObject(), cmd.getDirection());
                 }
             }
             break;
@@ -141,6 +141,43 @@ public class GameLogic {
             }
             break;
 
+        }
+    }
+
+    private void tryByte(Monster monster, Directions direction){
+        switch (direction){
+            case Up:{
+                if(map.getSpaces()[monster.getX()][monster.getY()-1].getObject() != null && map.getSpaces()[monster.getX()][monster.getY()-1].getObject() instanceof Player && monster.getLastByte().plusSeconds(Constants.secondsOfMonsterRecharging).isBefore(LocalTime.now())){
+                    Player player =  (Player) map.getSpaces()[monster.getX()][monster.getY()-1].getObject();
+                    player.setHp(player.getHp()-Constants.monsterDamage);
+                    monster.setLastByte(LocalTime.now());
+                }
+            }
+            break;
+            case Right:{
+                if(map.getSpaces()[monster.getX()+1][monster.getY()].getObject()!= null && map.getSpaces()[monster.getX()+1][monster.getY()].getObject() instanceof Player && monster.getLastByte().plusSeconds(Constants.secondsOfMonsterRecharging).isBefore(LocalTime.now())){
+                    Player player =  (Player) map.getSpaces()[monster.getX()+1][monster.getY()].getObject();
+                    player.setHp(player.getHp()-Constants.monsterDamage);
+                    monster.setLastByte(LocalTime.now());
+                }
+            }
+            break;
+            case Down:{
+                if(map.getSpaces()[monster.getX()][monster.getY()+1].getObject()!= null && map.getSpaces()[monster.getX()][monster.getY()+1].getObject() instanceof Player && monster.getLastByte().plusSeconds(Constants.secondsOfMonsterRecharging).isBefore(LocalTime.now())){
+                    Player player =  (Player) map.getSpaces()[monster.getX()][monster.getY()+1].getObject();
+                    player.setHp(player.getHp()-Constants.monsterDamage);
+                    monster.setLastByte(LocalTime.now());
+                }
+            }
+            break;
+            case Left:{
+                if(map.getSpaces()[monster.getX()-1][monster.getY()].getObject()!= null && map.getSpaces()[monster.getX()-1][monster.getY()].getObject() instanceof Player && monster.getLastByte().plusSeconds(Constants.secondsOfMonsterRecharging).isBefore(LocalTime.now())){
+                    Player player =  (Player) map.getSpaces()[monster.getX()-1][monster.getY()].getObject();
+                    player.setHp(player.getHp()-Constants.monsterDamage);
+                    monster.setLastByte(LocalTime.now());
+                }
+            }
+            break;
         }
     }
 
@@ -304,7 +341,11 @@ public class GameLogic {
         return this.fps;
     }
 
-    //TODO: check user!!!
+
+    public boolean isEndGame() {
+        return endGame;
+    }
+
     private void checkObjectsHp(){
         removeList.clear();
         for(GameObject object: map.getGameObjects()){
@@ -313,6 +354,9 @@ public class GameLogic {
             }
         }
         for(GameObject object: removeList){
+            if(object instanceof Player && ((Player) object).getId() == Constants.playerId){
+                endGame = true;
+            }
             map.getGameObjects().remove(object);
             for(int i = object.getX()-1; i <= object.getX()+1; i++){
                 for(int j = object.getY()-1; j <= object.getY()+1; j++){
@@ -411,11 +455,17 @@ public class GameLogic {
                 if(player.getY()> 0 && map.getSpaces()[player.getX()][player.getY()-1].getObject() instanceof Box){
                     takeAllFromBox(player, (Box)map.getSpaces()[player.getX()][player.getY()-1].getObject());
                 }
+                else if(player.getY()> 0 && map.getSpaces()[player.getX()][player.getY()-1].getObject() instanceof Treasury){
+                    endGame = true;
+                }
             }
             break;
             case Right:{
                 if(player.getX() + 1 < map.getSpaces().length && map.getSpaces()[player.getX()+1][player.getY()].getObject() instanceof Box){
                     takeAllFromBox(player, (Box)map.getSpaces()[player.getX()+1][player.getY()].getObject());
+                }
+                else if(player.getX() + 1 < map.getSpaces().length && map.getSpaces()[player.getX()+1][player.getY()].getObject() instanceof Treasury){
+                    endGame = true;
                 }
             }
             break;
@@ -423,11 +473,17 @@ public class GameLogic {
                 if(player.getY()+1 < map.getSpaces()[0].length && map.getSpaces()[player.getX()][player.getY()+1].getObject() instanceof Box){
                     takeAllFromBox(player, (Box)map.getSpaces()[player.getX()][player.getY()+1].getObject());
                 }
+                else if(player.getY()+1 < map.getSpaces()[0].length && map.getSpaces()[player.getX()][player.getY()+1].getObject() instanceof Treasury){
+                    endGame = true;
+                }
             }
             break;
             case Left:{
                 if(player.getX()> 0 && map.getSpaces()[player.getX()-1][player.getY()].getObject() instanceof Box){
                     takeAllFromBox(player, (Box)map.getSpaces()[player.getX()-1][player.getY()].getObject());
+                }
+                else if(player.getX()> 0 && map.getSpaces()[player.getX()-1][player.getY()].getObject() instanceof Treasury){
+                    endGame = true;
                 }
             }
             break;

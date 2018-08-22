@@ -22,4 +22,6 @@ public class Constants {
     public static int startX = 0;
     public static int startY = 0;
     public static int gameWindowDy = 50;
+    public static int secondsOfMonsterRecharging = 2;
+    public static int monsterDamage = 25;
 }

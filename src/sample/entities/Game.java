@@ -36,4 +36,8 @@ public class Game {
         gameLogic.setPause(pause);
     }
 
+
+    public boolean isEndGame(){
+        return gameLogic.isEndGame();
+    }
 }

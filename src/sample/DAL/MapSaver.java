@@ -5,6 +5,7 @@ import sample.entities.IWeapon;
 import sample.entities.Map;
 import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
+import sample.entities.mapObjects.Treasury;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
@@ -71,6 +72,9 @@ public class MapSaver {
                                 writer.write("some thing" + System.lineSeparator());
                             }
                         }
+                    }
+                    else if(map.getGameObjects().get(i) instanceof Treasury){
+                        writer.write("t " + map.getGameObjects().get(i).getX() + " " + map.getGameObjects().get(i).getY() + System.lineSeparator());
                     }
                 }
                 writer.flush();

@@ -7,6 +7,7 @@ import sample.entities.Space;
 import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
+import sample.entities.mapObjects.Treasury;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Torch;
@@ -35,6 +36,7 @@ public class MapMaker {
         setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
         setRandomMonsters(spaces, spaces.length*spaces[0].length/50);
         setRandomBoxes(spaces, spaces.length*spaces[0].length/35);
+        setRandomTreasury(spaces);
         return new Map(spaces);
     }
 
@@ -51,6 +53,36 @@ public class MapMaker {
         }
     }
 
+
+    private static void setRandomTreasury(Space[][] spaces){
+        Random random = new Random();
+        int x;
+        int y;
+        while (true){
+            x = random.nextInt(spaces.length);
+            y = random.nextInt(spaces[0].length);
+            if(spaces[x][y].getObject() == null){
+                spaces[x][y].setObject(new Treasury(x, y));
+                spaces[x][y].getWalls()[0] = true;
+                spaces[x][y].getWalls()[1] = true;
+                spaces[x][y].getWalls()[2] = true;
+                spaces[x][y].getWalls()[3] = true;
+                if(x > 0){
+                    spaces[x-1][y].getWalls()[1] = true;
+                }
+                if(y > 0){
+                    spaces[x][y-1].getWalls()[2] = true;
+                }
+                if(x + 1 < spaces.length){
+                    spaces[x+1][y].getWalls()[3] = true;
+                }
+                if(y + 1 < spaces[0].length){
+                    spaces[x][y+1].getWalls()[0] = true;
+                }
+                break;
+            }
+        }
+    }
 
 
     private static void setRandomBoxes(Space[][] spaces, int count){
@@ -206,6 +238,9 @@ public class MapMaker {
                             }
                         }
                         spaces[box.getX()][box.getY()].setObject(box);
+                    }
+                    else if(tempStringSplit[0].equals("t")){
+                        spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Treasury(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
                     }
                 }
 

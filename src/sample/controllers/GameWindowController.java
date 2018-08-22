@@ -43,6 +43,7 @@ public class GameWindowController {
 
     @FXML
     public void initialize() {
+        menuPaneClone = gameMenuPane;
         if(randomGame) {
             this.game = new Game(randomMapWidth, randomMapHeight);
         }
@@ -88,6 +89,7 @@ public class GameWindowController {
     @FXML
     AnchorPane gameMenuPane;
 
+    AnchorPane menuPaneClone;
 
     @FXML
     Label FPSLabel;
@@ -197,46 +199,52 @@ public class GameWindowController {
         }, Constants.updateTimerPeriod, Constants.updateTimerPeriod);
     }
 
-    private void drawGameContent(){
-        mainPane.getChildren().remove(gameMenuPane);
-        ArrayList<ImageView> frame = null;
-        try {
-            frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)mainPane.getWidth(), (int)mainPane.getHeight()-Constants.gameWindowDy);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void drawGameContent() {
+        if (game.isEndGame()) {
+            try {
+                exitFromGame(new ActionEvent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        gameContentPane.getChildren().clear();
-        for (ImageView view: frame) {
-            gameContentPane.getChildren().add(view);
+        else {
+            //  mainPane.getChildren().remove(gameMenuPane);
+            ArrayList<ImageView> frame = null;
+            try {
+                frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int) mainPane.getWidth(), (int) mainPane.getHeight() - Constants.gameWindowDy);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            gameContentPane.getChildren().clear();
+            for (ImageView view : frame) {
+                gameContentPane.getChildren().add(view);
+            }
+            if (LocalTime.now().isAfter(lastFrameCountTime.plusSeconds(1))) {
+                lastFrameCountTime = LocalTime.now();
+                FPSLabel.setText(String.valueOf(frameCounter));
+                logicFPSLabel.setText(String.valueOf(game.getLogicFPS()));
+                frameCounter = 0;
+            } else {
+                frameCounter++;
+            }
+            if (player.getTempWeapon() == null) {
+                tempThingImageView.setImage(handImage);
+                bombsCountLabel.setText("");
+            } else if (player.getTempWeapon() instanceof Pistol) {
+                tempThingImageView.setImage(pistolImage);
+                bombsCountLabel.setText("");
+            } else if ((player.getTempWeapon() instanceof Bomb)) {
+                tempThingImageView.setImage(bombImage);
+                bombsCountLabel.setText(player.getCountOfBombs() + "");
+            }
+            if (player.hasTorch()) {
+                torchIcon.setImage(torchImage);
+            }
+            gameMenuPane = menuPaneClone;
+            //mainPane.getChildren().add(gameMenuPane);
         }
-        if(LocalTime.now().isAfter(lastFrameCountTime.plusSeconds(1))){
-            lastFrameCountTime = LocalTime.now();
-            FPSLabel.setText(String.valueOf(frameCounter));
-            logicFPSLabel.setText(String.valueOf(game.getLogicFPS()));
-            frameCounter = 0;
-        }
-        else{
-            frameCounter++;
-        }
-        if(player.getTempWeapon() == null){
-            tempThingImageView.setImage(handImage);
-            bombsCountLabel.setText("");
-        }
-        else if(player.getTempWeapon() instanceof Pistol){
-            tempThingImageView.setImage(pistolImage);
-            bombsCountLabel.setText("");
-        }
-        else if((player.getTempWeapon() instanceof Bomb)){
-            tempThingImageView.setImage(bombImage);
-            bombsCountLabel.setText(player.getCountOfBombs() + "");
-        }
-        if(player.hasTorch()){
-            torchIcon.setImage(torchImage);
-        }
-        mainPane.getChildren().add(gameMenuPane);
+
     }
-
-
 
     public void openSaveWindow(ActionEvent event) throws IOException {
         game.setPause(true);
