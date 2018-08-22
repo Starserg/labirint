@@ -14,4 +14,5 @@ public class Constants {
     public static int monsterHp = 50;
     public static int secondsToPistolRecharge = 2;
     public static int pistolDamage = 25;
+    public static int countOfBombsInBox = 3;
 }

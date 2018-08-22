@@ -95,6 +95,9 @@ public class GameWindowController {
     @FXML
     ImageView tempThingImageView;
 
+    @FXML
+    Label bombsCountLabel;
+
 
     public static boolean randomGame = true;
     public static int randomMapWidth = Constants.minMapSize;
@@ -158,6 +161,9 @@ public class GameWindowController {
         else if(event.getCode().toString().equals("SPACE")){
             game.doCommand(new Command(Activities.Attack, player.getDirection(), player));
         }
+        else if(event.getCode().toString().equals("F")){
+            game.doCommand(new Command(Activities.Take, player.getDirection(), player));
+        }
 
     }
 
@@ -201,12 +207,15 @@ public class GameWindowController {
         }
         if(player.getTempWeapon() == null){
             tempThingImageView.setImage(handImage);
+            bombsCountLabel.setText("");
         }
         else if(player.getTempWeapon() instanceof Pistol){
             tempThingImageView.setImage(pistolImage);
+            bombsCountLabel.setText("");
         }
         else if((player.getTempWeapon() instanceof Bomb)){
             tempThingImageView.setImage(bombImage);
+            bombsCountLabel.setText(player.getCountOfBombs() + "");
         }
     }
 

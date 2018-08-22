@@ -5,9 +5,12 @@ import sample.DAL.MapMaker;
 import sample.entities.Command;
 import sample.entities.IWeapon;
 import sample.entities.Map;
+import sample.entities.Space;
+import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.GameObject;
 import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
+import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
 import sample.enums.Activities;
@@ -122,6 +125,12 @@ public class GameLogic {
                 }
                 else if(cmd.getObject() instanceof Monster){
 
+                }
+            }
+            break;
+            case Take:{
+                if(cmd.getObject() instanceof Player){
+                    tryTake((Player)cmd.getObject(), cmd.getDirection());
                 }
             }
             break;
@@ -364,4 +373,73 @@ public class GameLogic {
     private void damageObject(GameObject object, int damage){
         object.setHp(object.getHp()-damage);
     }
+
+    private void tryTake(Player player, Directions direction){
+        switch (direction){
+            case Up:{
+                if(player.getY()> 0 && map.getSpaces()[player.getX()][player.getY()-1].getObject() instanceof Box){
+                    takeAllFromBox(player, (Box)map.getSpaces()[player.getX()][player.getY()-1].getObject());
+                }
+            }
+            break;
+            case Right:{
+                if(player.getX() + 1 < map.getSpaces().length && map.getSpaces()[player.getX()+1][player.getY()].getObject() instanceof Box){
+                    takeAllFromBox(player, (Box)map.getSpaces()[player.getX()+1][player.getY()].getObject());
+                }
+            }
+            break;
+            case Down:{
+                if(player.getY()+1 < map.getSpaces()[0].length && map.getSpaces()[player.getX()][player.getY()+1].getObject() instanceof Box){
+                    takeAllFromBox(player, (Box)map.getSpaces()[player.getX()][player.getY()+1].getObject());
+                }
+            }
+            break;
+            case Left:{
+                if(player.getX()> 0 && map.getSpaces()[player.getX()-1][player.getY()].getObject() instanceof Box){
+                    takeAllFromBox(player, (Box)map.getSpaces()[player.getX()-1][player.getY()].getObject());
+                }
+            }
+            break;
+        }
+    }
+
+    private void takeWeaponFromBox(Player player, Box box){
+        boolean letsTakeThisWeapon = false;
+        for(Thing thing: box.things){
+            if(thing instanceof IWeapon) {
+                letsTakeThisWeapon = true;
+                for (IWeapon weapon : player.getWeapons()) {
+                    if (thing instanceof Pistol && weapon instanceof Pistol) {
+                        letsTakeThisWeapon = false;
+                    }
+                }
+            }
+            if(letsTakeThisWeapon){
+                if(thing instanceof Pistol){
+                    player.getWeapons().add(new Pistol(player.getX(), player.getY()));
+                }
+                else if(thing instanceof Bomb){
+                    boolean wereBombs = false;
+                    for(IWeapon weapon: player.getWeapons()){
+                        if(weapon instanceof Bomb){
+                            ((Bomb) weapon).setCount(((Bomb) weapon).getCount() + ((Bomb) thing).getCount());
+                            wereBombs = true;
+                            break;
+                        }
+                    }
+                    if(!wereBombs){
+                        player.getWeapons().add(new Bomb(player.getX(), player.getY(), ((Bomb) thing).getCount()));
+                    }
+                }
+            }
+            letsTakeThisWeapon = false;
+        }
+
+    }
+
+    private void takeAllFromBox(Player player, Box box){
+        takeWeaponFromBox(player, box);
+        box.things.clear();
+    }
+
 }

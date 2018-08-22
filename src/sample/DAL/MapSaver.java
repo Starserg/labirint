@@ -47,7 +47,7 @@ public class MapSaver {
                             writer.write("pistol" + System.lineSeparator());
                         }
                         else if(weapon instanceof Bomb){
-                            writer.write("bomb" + System.lineSeparator());
+                            writer.write("bomb" + System.lineSeparator() + ((Bomb) weapon).getCount() + System.lineSeparator());
                         }
                     }
                 }

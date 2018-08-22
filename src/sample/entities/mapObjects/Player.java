@@ -96,4 +96,13 @@ public class Player extends GameObject implements IThingsContainer{
     public void setLastShotTime(LocalTime lastShotTime) {
         this.lastShotTime = lastShotTime;
     }
+
+    public int getCountOfBombs(){
+        if(tempWeapon instanceof Bomb){
+            return ((Bomb) tempWeapon).getCount();
+        }
+        else{
+            return 0;
+        }
+    }
 }

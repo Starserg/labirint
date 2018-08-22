@@ -151,7 +151,7 @@ public class MapMaker {
                             player.getWeapons().add(new Pistol(player.getX(), player.getY()));
                         }
                         else if(tempString.equals("bomb")){
-                            player.getWeapons().add(new Bomb(player.getX(), player.getY()));
+                            player.getWeapons().add(new Bomb(player.getX(), player.getY(), Integer.parseInt(reader.readLine())));
                         }
                     }
                 }
