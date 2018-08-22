@@ -19,6 +19,7 @@ public class Drawer {
 
     private static Image wallImageHorizontal = new Image("/resources/textures/wall1.png");
     private static Image wallImageVertical = new Image("/resources/textures/wall2.png");
+    private static Image blackImage = new Image("/resources/textures/black1.png");
 
     private static int singleSize = 50;
     private static int drawingDx = 0;
@@ -180,19 +181,37 @@ public class Drawer {
         }
 
 
+
+
         for(int i = player.getX()-player.getSeeSize(); i <= player.getX()+player.getSeeSize(); i++){
             for(int j = player.getY()-player.getSeeSize(); j <= player.getY()+player.getSeeSize(); j++){
                 if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
                     continue;
                 }
-                if(map.canPlayerSeeSpace(player,  map.getSpaces()[i][j])){
-                    if(map.getSpaces()[i][j].getObject()!= null && map.getSpaces()[i][j].getObject().getX() == map.getSpaces()[i][j].getX() &&map.getSpaces()[i][j].getObject().getY() == map.getSpaces()[i][j].getY()){
-                        drawSpaceObjectOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
-                    }
+
+                if(map.getSpaces()[i][j].getObject()!= null && map.getSpaces()[i][j].getObject().getX() == map.getSpaces()[i][j].getX() &&map.getSpaces()[i][j].getObject().getY() == map.getSpaces()[i][j].getY()){
+                    drawSpaceObjectOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
                 }
+
             }
         }
 
+
+        for(int i = player.getX()-player.getSeeSize()-1; i <= player.getX()+player.getSeeSize()+1; i++){
+            for(int j = player.getY()-player.getSeeSize()-1; j <= player.getY()+player.getSeeSize()+1; j++){
+                if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
+                    continue;
+                }
+                if(!map.canPlayerSeeSpace(player,  map.getSpaces()[i][j])){
+                    ImageView blackImageView = new ImageView(blackImage);
+                    blackImageView.setFitWidth(singleSize);
+                    blackImageView.setFitHeight(singleSize);
+                    blackImageView.setX(singleSize*(i-player.getX()+player.getSeeSize())+drawingDx);
+                    blackImageView.setY(singleSize*(j-player.getY()+player.getSeeSize())+drawingDy);
+                    frame.add(blackImageView);
+                }
+            }
+        }
 
 
         return frame;

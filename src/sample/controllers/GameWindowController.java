@@ -198,6 +198,7 @@ public class GameWindowController {
     }
 
     private void drawGameContent(){
+        mainPane.getChildren().remove(gameMenuPane);
         ArrayList<ImageView> frame = null;
         try {
             frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)mainPane.getWidth(), (int)mainPane.getHeight()-Constants.gameWindowDy);
@@ -232,6 +233,7 @@ public class GameWindowController {
         if(player.hasTorch()){
             torchIcon.setImage(torchImage);
         }
+        mainPane.getChildren().add(gameMenuPane);
     }
 
 
