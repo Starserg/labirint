@@ -1,5 +1,6 @@
 package sample.logic;
 
+import javafx.scene.image.Image;
 import sample.Constants;
 import sample.DAL.MapMaker;
 import sample.entities.Command;
@@ -440,6 +441,7 @@ public class GameLogic {
     private void takeAllFromBox(Player player, Box box){
         takeWeaponFromBox(player, box);
         box.things.clear();
+        box.setObjectTexture(new Image("/resources/textures/box2.png"));
     }
 
 }

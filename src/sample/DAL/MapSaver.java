@@ -7,6 +7,7 @@ import sample.entities.mapObjects.Box;
 import sample.entities.mapObjects.Monster;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
+import sample.entities.things.Thing;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -58,6 +59,18 @@ public class MapSaver {
                     }
                     else if(map.getGameObjects().get(i) instanceof Box){
                         writer.write("b " + map.getGameObjects().get(i).getX() + " " + map.getGameObjects().get(i).getY() + System.lineSeparator());
+                        writer.write(((Box)map.getGameObjects().get(i)).things.size() + System.lineSeparator());
+                        for(Thing thing: ((Box)map.getGameObjects().get(i)).things){
+                            if(thing instanceof Pistol){
+                                writer.write("pistol" + System.lineSeparator());
+                            }
+                            else if(thing instanceof Bomb){
+                                writer.write("bomb " + ((Bomb) thing).getCount() + System.lineSeparator());
+                            }
+                            else{
+                                writer.write("some thing" + System.lineSeparator());
+                            }
+                        }
                     }
                 }
                 writer.flush();

@@ -163,7 +163,18 @@ public class MapMaker {
                         spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Monster(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
                     }
                     else if(tempStringSplit[0].equals("b")){
-                        spaces[Integer.parseInt(tempStringSplit[1])][Integer.parseInt(tempStringSplit[2])].setObject(new Box(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2])));
+                        Box box = new Box(Integer.parseInt(tempStringSplit[1]), Integer.parseInt(tempStringSplit[2]));
+                        int thingsCount  = Integer.parseInt(reader.readLine());
+                        for(int t = 0; t < thingsCount; t++){
+                            tempStringSplit = reader.readLine().split(" ");
+                            if(tempStringSplit[0].equals("pistol")){
+                                box.things.add(new Pistol(box.getX(), box.getY()));
+                            }
+                            else if(tempStringSplit[0].equals("bomb")){
+                                box.things.add(new Bomb(box.getX(), box.getY(), Integer.parseInt(tempStringSplit[1])));
+                            }
+                        }
+                        spaces[box.getX()][box.getY()].setObject(box);
                     }
                 }
 
