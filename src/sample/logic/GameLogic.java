@@ -495,6 +495,10 @@ public class GameLogic {
                 }
                 break;
             }
+            if(((Bomb) player.getTempWeapon()).getCount() <= 0){
+                player.getWeapons().remove(player.getTempWeapon());
+                player.setHandWithoutWeapon();
+            }
         }
     }
 

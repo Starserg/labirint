@@ -136,6 +136,16 @@ public class Player extends GameObject implements IThingsContainer{
     }
 
 
+    public void setHandWithoutWeapon(){
+        this.tempWeapon = null;
+        if(this.withTorch){
+            this.objectTexture = this.texture1Torch;
+        }
+        else{
+            this.objectTexture = this.texture1;
+        }
+    }
+
     public void setLastShotTime(LocalTime lastShotTime) {
         this.lastShotTime = lastShotTime;
     }
