@@ -123,6 +123,9 @@ public class GameLogic {
                     if(((Player)cmd.getObject()).getTempWeapon() instanceof Pistol){
                         tryShot((Player)cmd.getObject(), cmd.getDirection());
                     }
+                    else if(((Player)cmd.getObject()).getTempWeapon() instanceof Bomb){
+                        tryBlowUp((Player)cmd.getObject(), cmd.getDirection());
+                    }
                 }
                 else if(cmd.getObject() instanceof Monster){
 
@@ -442,6 +445,46 @@ public class GameLogic {
         takeWeaponFromBox(player, box);
         box.getThings().clear();
         box.setObjectTexture(new Image("/resources/textures/box2.png"));
+    }
+
+
+    private void  tryBlowUp(Player player, Directions direction){
+        if(player.getTempWeapon() instanceof Bomb && ((Bomb) player.getTempWeapon()).getCount() > 0) {
+            switch (direction) {
+                case Up: {
+                    if (map.getSpaces()[player.getX()][player.getY()].getWalls()[0] && player.getY() > 0) {
+                        map.getSpaces()[player.getX()][player.getY()].getWalls()[0] = false;
+                        map.getSpaces()[player.getX()][player.getY() - 1].getWalls()[2] = false;
+                        ((Bomb) player.getTempWeapon()).setCount(((Bomb) player.getTempWeapon()).getCount()-1);
+                    }
+                }
+                break;
+                case Right: {
+                    if (map.getSpaces()[player.getX()][player.getY()].getWalls()[1] && player.getX()+1 < map.getSpaces().length) {
+                        map.getSpaces()[player.getX()][player.getY()].getWalls()[1] = false;
+                        map.getSpaces()[player.getX()+1][player.getY()].getWalls()[3] = false;
+                        ((Bomb) player.getTempWeapon()).setCount(((Bomb) player.getTempWeapon()).getCount()-1);
+                    }
+                }
+                break;
+                case Down: {
+                    if (map.getSpaces()[player.getX()][player.getY()].getWalls()[2] && player.getY()+1 < map.getSpaces()[0].length) {
+                        map.getSpaces()[player.getX()][player.getY()].getWalls()[2] = false;
+                        map.getSpaces()[player.getX()][player.getY() + 1].getWalls()[0] = false;
+                        ((Bomb) player.getTempWeapon()).setCount(((Bomb) player.getTempWeapon()).getCount()-1);
+                    }
+                }
+                break;
+                case Left: {
+                    if (map.getSpaces()[player.getX()][player.getY()].getWalls()[3] && player.getX() > 0) {
+                        map.getSpaces()[player.getX()][player.getY()].getWalls()[3] = false;
+                        map.getSpaces()[player.getX()-1][player.getY()].getWalls()[1] = false;
+                        ((Bomb) player.getTempWeapon()).setCount(((Bomb) player.getTempWeapon()).getCount()-1);
+                    }
+                }
+                break;
+            }
+        }
     }
 
 }

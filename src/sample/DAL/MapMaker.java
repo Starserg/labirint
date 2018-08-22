@@ -33,8 +33,8 @@ public class MapMaker {
         Player player1 = new Player(0, 0, Constants.playerId);
         spaces[0][0].setObject(player1);
         setRandomWalls(spaces, spaces.length*spaces[0].length*5/6);
-        setRandomMonsters(spaces, spaces.length*spaces[0].length/35);
-        setRandomBoxes(spaces, spaces.length*spaces[0].length/25);
+        setRandomMonsters(spaces, spaces.length*spaces[0].length/50);
+        setRandomBoxes(spaces, spaces.length*spaces[0].length/35);
         //TODO: set randomize logic here
         return new Map(spaces);
     }
