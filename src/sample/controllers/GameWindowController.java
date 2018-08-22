@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -77,6 +80,9 @@ public class GameWindowController {
 
 
     @FXML
+    AnchorPane mainPane;
+
+    @FXML
     AnchorPane gameContentPane;
 
     @FXML
@@ -98,6 +104,11 @@ public class GameWindowController {
     @FXML
     Label bombsCountLabel;
 
+    @FXML
+    ImageView torchIcon;
+
+
+
 
     public static boolean randomGame = true;
     public static int randomMapWidth = Constants.minMapSize;
@@ -114,6 +125,7 @@ public class GameWindowController {
     private Image bombImage = new Image("/resources/textures/bomb1.png");
     private Image pistolImage = new Image("/resources/textures/pistol1.png");
     private Image handImage = new Image("/resources/textures/hand1.png");
+    private Image torchImage = new Image("/resources/textures/torch1.png");
 
     private int frameCounter = 0;
     private LocalTime lastFrameCountTime;
@@ -188,7 +200,7 @@ public class GameWindowController {
     private void drawGameContent(){
         ArrayList<ImageView> frame = null;
         try {
-            frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)gameContentPane.getPrefWidth(), (int)gameContentPane.getPrefHeight());
+            frame = Drawer.getGameFrameUpd(game.getGameMap(), player, (int)mainPane.getWidth(), (int)mainPane.getHeight()-Constants.gameWindowDy);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -216,6 +228,9 @@ public class GameWindowController {
         else if((player.getTempWeapon() instanceof Bomb)){
             tempThingImageView.setImage(bombImage);
             bombsCountLabel.setText(player.getCountOfBombs() + "");
+        }
+        if(player.hasTorch()){
+            torchIcon.setImage(torchImage);
         }
     }
 

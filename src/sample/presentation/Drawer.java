@@ -24,15 +24,6 @@ public class Drawer {
     private static int drawingDx = 0;
     private static int drawingDy = 0;
 
-    public static ArrayList<ImageView> getGameFrame(Map map, Player player){
-        ArrayList frame = new ArrayList();
-        for(int i = 0; i < map.getSpaces().length; i++){
-            for(int j = 0; j < map.getSpaces()[i].length; j++){
-                drawSpaceOnFrame(frame, map.getSpaces()[i][j], singleSize*i, singleSize*j, singleSize);
-            }
-        }
-        return frame;
-    }
 
     private static void drawSpaceOnFrame(ArrayList<ImageView> frame, Space space, int x, int y, int singleSize){
         drawSpaceGroundOnFrame(frame, space, x, y, singleSize);
@@ -148,6 +139,9 @@ public class Drawer {
     public static ArrayList<ImageView> getGameFrameUpd(Map map, Player player, int windowWidth, int windowHeight) throws Exception {
 
         singleSize = windowWidth/(player.getSeeSize()*2+1);
+        if(singleSize > windowHeight/(player.getSeeSize()*2+1)){
+            singleSize = windowHeight/(player.getSeeSize()*2+1);
+        }
 
         int delta = (int)(player.getDelta()*singleSize);
         switch (player.getDirectionOfMoving()){
@@ -179,7 +173,7 @@ public class Drawer {
                 if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
                     continue;
                 }
-                if(map.caPlayerSeeSpace(player,  map.getSpaces()[i][j])){
+                if(map.canPlayerSeeSpace(player,  map.getSpaces()[i][j])){
                     drawSpaceOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
                 }
             }
@@ -191,7 +185,7 @@ public class Drawer {
                 if(i< 0 || j< 0 || i >= map.getSpaces().length || j >= map.getSpaces()[0].length){
                     continue;
                 }
-                if(map.caPlayerSeeSpace(player,  map.getSpaces()[i][j])){
+                if(map.canPlayerSeeSpace(player,  map.getSpaces()[i][j])){
                     if(map.getSpaces()[i][j].getObject()!= null && map.getSpaces()[i][j].getObject().getX() == map.getSpaces()[i][j].getX() &&map.getSpaces()[i][j].getObject().getY() == map.getSpaces()[i][j].getY()){
                         drawSpaceObjectOnFrame(frame, map.getSpaces()[i][j], singleSize*(i-player.getX()+player.getSeeSize())+drawingDx, singleSize*(j-player.getY()+player.getSeeSize())+drawingDy, singleSize);
                     }

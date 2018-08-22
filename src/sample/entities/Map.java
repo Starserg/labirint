@@ -47,7 +47,7 @@ public class Map {
     }
 
 
-    public boolean caPlayerSeeSpace(Player player, Space space){
+    public boolean canPlayerSeeSpace(Player player, Space space){
         //TODO: refactor!
         return true;
     }

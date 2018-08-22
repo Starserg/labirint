@@ -21,4 +21,5 @@ public class Constants {
     public static int torchEffect = 1;
     public static int startX = 0;
     public static int startY = 0;
+    public static int gameWindowDy = 50;
 }
