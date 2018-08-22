@@ -14,6 +14,7 @@ import sample.entities.mapObjects.Player;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
 import sample.entities.things.Thing;
+import sample.entities.things.Torch;
 import sample.enums.Activities;
 import sample.enums.Directions;
 
@@ -443,8 +444,18 @@ public class GameLogic {
 
     private void takeAllFromBox(Player player, Box box){
         takeWeaponFromBox(player, box);
+        takeTorchFromBox(player, box);
         box.getThings().clear();
         box.setObjectTexture(new Image("/resources/textures/box2.png"));
+    }
+
+    private void takeTorchFromBox(Player player, Box box){
+        for(Thing thing: box.getThings()){
+            if(thing instanceof Torch){
+                player.takeTorch();
+                break;
+            }
+        }
     }
 
 

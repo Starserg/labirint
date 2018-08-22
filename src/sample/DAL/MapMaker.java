@@ -9,6 +9,7 @@ import sample.entities.mapObjects.Monster;
 import sample.entities.mapObjects.Player;
 import sample.entities.things.Bomb;
 import sample.entities.things.Pistol;
+import sample.entities.things.Torch;
 
 
 import java.io.BufferedReader;
@@ -63,11 +64,14 @@ public class MapMaker {
             randomY = random.nextInt(spaces[0].length - 1);
             if(spaces[randomX][randomY].getObject() == null){
                 Box box = new Box(randomX, randomY);
-                if(random.nextInt(Constants.countOfVariantsToPistol) > 0){
+                if(random.nextInt(Constants.countOfVariantsToPistolInBox) == 0){
                     box.getThings().add(new Pistol(box.getX(), box.getY()));
                 }
-                if(random.nextInt(Constants.countOfVariantsToBombs) > 0){
+                if(random.nextInt(Constants.countOfVariantsToBombsInBox) == 0){
                     box.getThings().add(new Bomb(box.getX(), box.getY(), Constants.countOfBombsInBox));
+                }
+                if(random.nextInt(Constants.countOfVariantsToTorchInBox) == 0){
+                    box.getThings().add(new Torch(box.getX(), box.getY()));
                 }
                 spaces[randomX][randomY].setObject(box);
             }

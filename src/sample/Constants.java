@@ -15,6 +15,8 @@ public class Constants {
     public static int secondsToPistolRecharge = 2;
     public static int pistolDamage = 25;
     public static int countOfBombsInBox = 3;
-    public static int countOfVariantsToPistol = 2;
-    public static int countOfVariantsToBombs = 2;
+    public static int countOfVariantsToPistolInBox = 2;
+    public static int countOfVariantsToBombsInBox = 2;
+    public static int countOfVariantsToTorchInBox = 5;
+    public static int torchEffect = 1;
 }

@@ -16,10 +16,14 @@ public class Player extends GameObject implements IThingsContainer{
         things = new ArrayList<>();
         weapons =new ArrayList<>();
         this.id = id;
+        this.withTorch = false;
         this.seeSize = Constants.playerSeeSize;
         this.texture1 = new Image("/resources/textures/player1.png");
         this.texturePistol = new Image("/resources/textures/playerPistol1.png");
         this.textureBomb = new Image("/resources/textures/playerBomb1.png");
+        this.texture1Torch = new Image("/resources/textures/player1torch.png");
+        this.texturePistolTorch = new Image("/resources/textures/playerPistol1torch.png");
+        this.textureBombTorch = new Image("/resources/textures/playerBomb1torch.png");
         this.objectTexture = texture1;
         lastShotTime = LocalTime.now();
     }
@@ -28,15 +32,36 @@ public class Player extends GameObject implements IThingsContainer{
     private IWeapon tempWeapon = null;
     private int id;
     private int seeSize;
+    private boolean withTorch;
+
 
     private Image texture1;
     private Image texturePistol;
     private Image textureBomb;
+    private Image texture1Torch;
+    private Image texturePistolTorch;
+    private Image textureBombTorch;
 
     private LocalTime lastShotTime;
 
     private ArrayList<Thing> things;
 
+
+    public void takeTorch(){
+        if(!withTorch){
+            this.withTorch = true;
+            this.seeSize += Constants.torchEffect;
+            if(tempWeapon == null){
+                this.objectTexture = this.texture1Torch;
+            }
+            else if(tempWeapon instanceof Pistol){
+                this.objectTexture = this.texturePistolTorch;
+            }
+            else if(tempWeapon instanceof Bomb){
+                this.objectTexture = this.textureBombTorch;
+            }
+        }
+    }
 
     public int getId() {
         return id;
@@ -80,13 +105,28 @@ public class Player extends GameObject implements IThingsContainer{
 
     private void setTextureWithRightWeapon(){
         if(this.tempWeapon == null){
-            this.objectTexture = this.texture1;
+            if(withTorch){
+                this.objectTexture = this.texture1Torch;
+            }
+            else {
+                this.objectTexture = this.texture1;
+            }
         }
         else if(this.tempWeapon instanceof Pistol){
-            this.objectTexture = this.texturePistol;
+            if(withTorch){
+                this.objectTexture = this.texturePistolTorch;
+            }
+            else {
+                this.objectTexture = this.texturePistol;
+            }
         }
         else if(this.tempWeapon instanceof Bomb){
-            this.objectTexture = this.textureBomb;
+            if(withTorch){
+                this.objectTexture = this.textureBombTorch;
+            }
+            else {
+                this.objectTexture = this.textureBomb;
+            }
         }
     }
 
